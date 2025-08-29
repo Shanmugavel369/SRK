@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+/* h1, h2, h3 {
+  font-family: 'Raleway', sans-serif;
+} */
+.swiper-wrapper {
+  transition-timing-function: linear !important;
+}
+
+html, body {
+  scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* prevents horizontal scroll */
+}
+
+motion-element {
+  will-change: transform, opacity;
+}
+
+.bg {
+  background: linear-gradient(90deg, #0052CC 0%, #007BFF 100%);
+  color: #fff;
+}
+
+.btn-gradient {
+  @apply font-semibold px-6 py-3 rounded-lg transition-transform duration-300 ease-in-out;
+  background: linear-gradient(270deg, #0052CC, #007BFF, #0052CC);
+  background-size: 600% 600%;
+  color: #fff;
+  animation: gradientShift 6s ease infinite;
+}
+
+.btn-gradient:hover {
+  @apply scale-105;
+  box-shadow: 0 8px 20px rgba(0, 123, 255, 0.4);
+}
+
+/* Keyframes for gradient animation */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+.btn-gradient-yellow {
+  @apply font-semibold px-6 py-3 rounded-lg transition-transform duration-300 ease-in-out;
+  background: linear-gradient(270deg, #FACC15, #ffe8bb, #FACC15); /* yellow-400 to yellow-500 */
+  background-size: 600% 600%;
+  color: #000; /* darker text for contrast */
+  animation: gradientShift 6s ease infinite;
+}
+
+.btn-gradient-yellow:hover {
+  @apply scale-105;
+  box-shadow: 0 8px 20px rgba(250, 191, 36, 0.5); /* subtle yellow glow */
+}
+
+/* Reuse the same keyframes */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.btn-cta-yellow {
+  @apply text-sm font-semibold px-4 py-2 rounded-md transition-transform duration-300 ease-in-out;
+  background: linear-gradient(270deg, #FACC15, #fad16b, #FACC15); /* yellow-400 to yellow-500 */
+  background-size: 600% 600%;
+  color: #000; /* dark text for readability */
+  animation: gradientShift 4s ease infinite; /* slightly faster animation */
+}
+
+.btn-cta-yellow:hover {
+  @apply scale-110 shadow-md;
+  box-shadow: 0 6px 12px rgba(250, 191, 36, 0.5); /* yellow glow */
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+.card-bg {
+  @apply bg-gradient-to-r from-[#1976d2] to-[#0052CC];
+}
