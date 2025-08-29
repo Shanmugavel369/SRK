@@ -213,238 +213,233 @@ const Hero = () => {
 
       {/* Next Sections */}
       <section
-        ref={sectionRef}
-        className="relative w-full h-[400px] flex items-center overflow-hidden "
+  ref={sectionRef}
+  className="relative w-full h-[400px] flex items-center overflow-hidden"
+>
+  <div className="container mx-auto flex flex-col md:flex-row items-center px-4 sm:px-6 lg:px-8 py-12 relative z-10 w-full h-full">
+    {/* Left content */}
+    <div className="w-full md:w-5/12 relative h-full bg-white bg-opacity-80 z-10 p-6 sm:p-8">
+      {/* Block 1: Top left, wide */}
+      <div className="absolute left-3 top-0 w-[58%] h-[60%] flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300 bg rounded-lg shadow-lg p-2">
+        <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-2 tracking-wide">
+          04
+        </h2>
+        <p className="text-white text-base md:text-lg text-center">
+          Brands
+        </p>
+      </div>
+
+      {/* Block 2: Top right, small */}
+      <div className="absolute right-0 top-0 w-[38%] h-[40%] flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300 bg-yellow-400 rounded-lg shadow-lg p-2">
+        <h2 className="text-2xl font-bold text-white mb-2 tracking-wide">
+          100+
+        </h2>
+        <p className="text-gray-600 text-sm text-center">Clients</p>
+      </div>
+
+      {/* Block 3: Bottom right, small */}
+      <div className="absolute right-0 bottom-0 w-[38%] h-[56%] flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300 bg rounded-lg shadow-lg p-2">
+        <h2 className="text-2xl font-bold text-white mb-2 tracking-wide">
+          10+
+        </h2>
+        <p className="text-white text-sm text-center">
+          Years of Expertise
+        </p>
+      </div>
+
+      {/* Block 4: Bottom left, wide */}
+      <div className="absolute left-0 bottom-0 w-[58%] h-[36%] flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300 bg-yellow-400 rounded-lg shadow-lg p-2">
+        <h2 className="text-2xl font-bold text-white tracking-wide">
+          50
+        </h2>
+        <p className="text-gray-600 text-sm md:text-lg text-center">
+          Workshop
+        </p>
+      </div>
+    </div>
+
+    {/* Right side content */}
+    <div className="hidden md:flex flex-col items-start justify-center md:w-7/12 h-full relative overflow-hidden z-0 bg-white px-6 md:px-10 lg:px-16">
+      <h3 className="text-3xl md:text-5xl font-bold text-black mb-6 leading-tight max-w-md text-left w-full">
+        Growth Figures
+      </h3>
+      <p className="text-sm md:text-lg text-gray-600 mb-8 max-w-lg text-left">
+        With over a decade of experience, Sharath Ravikumar has built a
+        reputation for delivering measurable results, empowering
+        businesses, and transforming digital potential into sustainable
+        growth and meaningful impact.
+      </p>
+      <button
+        onClick={() => navigate("/contact-us")}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        className={`relative overflow-hidden px-8 py-3 rounded-lg border-2 font-semibold transition-colors duration-300 border-yellow-400 ${
+          hovered
+            ? "bg-yellow-400 text-white"
+            : "bg-transparent text-yellow-400"
+        }`}
       >
-        <div className="container mx-auto flex flex-col md:flex-row items-center px-0 md:px-0 py-12 relative z-10 w-full h-full -mr-4">
-          {/* Left content */}
-          <div className="w-full md:w-5/12 relative h-full bg-white bg-opacity-80 z-10 p-8">
-            {/* Block 1: Top left, wide */}
-            <div className="absolute left-3 top-0 w-[58%] h-[60%] flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300 bg rounded-lg shadow-lg p-2">
-              <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-2 tracking-wide">
-                04
-              </h2>
-              <p className="text-white text-base md:text-lg text-center">
-                Brands
-              </p>
-            </div>
+        <span className="relative z-10">Contact Us</span>
+        {/* Sliding arrow */}
+        <span
+          className={`absolute top-1/2 -translate-y-1/2 right-3 text-white font-bold transition-transform duration-300 z-10 ${
+            hovered ? "translate-x-0 opacity-100" : "translate-x-6 opacity-0"
+          }`}
+        >
+          →
+        </span>
+        {/* Background sliding from left to right */}
+        <span
+          className={`absolute inset-0 bg-yellow-400 transition-transform duration-300 ${
+            hovered ? "translate-x-0" : "-translate-x-full"
+          } z-0`}
+          style={{ pointerEvents: "none" }}
+        />
+      </button>
+    </div>
+  </div>
+</section>
 
-            {/* Block 2: Top right, small */}
-            <div className="absolute right-0 top-0 w-[38%] h-[40%] flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300 bg-yellow-400 rounded-lg shadow-lg p-2">
-              <h2 className="text-2xl font-bold text-white mb-2 tracking-wide">
-                100+
-              </h2>
-              <p className="text-gray-600 text-sm text-center">Clients</p>
-            </div>
-
-            {/* Block 3: Bottom right, small */}
-            <div className="absolute right-0 bottom-0 w-[38%] h-[56%] flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300 bg rounded-lg shadow-lg p-2">
-              <h2 className="text-2xl font-bold text-white mb-2 tracking-wide">
-                10+
-              </h2>
-              <p className="text-white text-sm text-center">
-                Years of Expertise
-              </p>
-            </div>
-
-            {/* Block 4: Bottom left, wide */}
-            <div className="absolute left-0 bottom-0 w-[58%] h-[36%] flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300 bg-yellow-400 rounded-lg shadow-lg p-2">
-              <h2 className="text-2xl font-bold text-white tracking-wide">
-                50
-              </h2>
-              <p className="text-gray-600 text-sm md:text-lg text-center">
-                Workshop
-              </p>
-            </div>
-          </div>
-
-          {/* Right side content (unchanged) */}
-          <div className="hidden md:flex flex-col items-start justify-center md:w-7/12 h-full relative overflow-hidden ml-20 z-0 bg-white px-8">
-            <h3 className="text-3xl md:text-5xl font-bold text-black mb-6 leading-tight max-w-md text-left w-full">
-              Growth Figures
-            </h3>
-            <p className="text-sm md:text-lg text-gray-600 mb-8 max-w-lg text-left">
-              With over a decade of experience, Sharath Ravikumar has built a
-              reputation for delivering measurable results, empowering
-              businesses, and transforming digital potential into sustainable
-              growth and meaningful impact.
-            </p>
-            <button
-              onClick={() => navigate("/contact-us")}
-              onMouseEnter={() => setHovered(true)}
-              onMouseLeave={() => setHovered(false)}
-              className={`relative overflow-hidden px-8 py-3 rounded-lg border-2 font-semibold transition-colors duration-300 border-yellow-400 ${
-                hovered
-                  ? "bg-yellow-400 text-white"
-                  : "bg-transparent text-yellow-400"
-              }`}
-            >
-              <span className="relative z-10">Contact Us</span>
-              {/* Sliding arrow */}
-              <span
-                className={`absolute top-1/2 -translate-y-1/2 right-3 text-white font-bold transition-transform duration-300 z-10 ${
-                  hovered
-                    ? "translate-x-0 opacity-100"
-                    : "translate-x-6 opacity-0"
-                }`}
-              >
-                →
-              </span>
-              {/* Background sliding from left to right */}
-              <span
-                className={`absolute inset-0 bg-yellow-400 transition-transform duration-300 ${
-                  hovered ? "translate-x-0" : "-translate-x-full"
-                } z-0`}
-                style={{ pointerEvents: "none" }}
-              />
-            </button>
-          </div>
-        </div>
-      </section>
 
       {/* about me */}
-      <section className="flex flex-col md:flex-row items-center md:items-start bg-white py-12 px-6 md:px-16 lg:px-32">
-        {/* Left: Photo with accent boxes */}
-        <div className="relative w-full md:w-1/3 max-w-md ml-10 md:ml-20">
-          {" "}
-          {/* Increased max width */}
-          {/* Large accent box background */}
-          <div className="absolute -top-8 -right-10 w-60 h-60 bg-yellow-400 rounded-md z-0"></div>{" "}
-          {/* Bigger size and shifted slightly */}
-          {/* Profile photo */}
-          <img
-            src="https://sharathravikumar.com/wp-content/uploads/2024/12/achievements-1.png"
-            alt="Profile"
-            className="relative w-full h-auto z-10"
-          />
-          {/* Small accent box bottom left */}
-          <div className="absolute -bottom-6 -left-10 w-28 h-28 border-12 border-blue-700 rounded-md"></div>{" "}
-          {/* Bigger with thicker border */}
+      <section className="flex flex-col gap-12 md:flex-row items-center md:items-start bg-white py-12 px-4 sm:px-8 md:px-16 lg:px-32">
+  {/* Left: Photo with accent boxes */}
+<div className="relative w-full md:w-1/3 max-w-md mx-auto md:mx-0 md:ml-8 lg:ml-12 mb-12 md:mb-0">
+  {/* Large accent box background */}
+  <div className="absolute -top-6 -right-6 md:-top-8 md:-right-10 w-48 h-48 md:w-60 md:h-60 bg-yellow-400 rounded-md z-0"></div>
+
+  {/* Profile photo */}
+  <img
+    src="https://sharathravikumar.com/wp-content/uploads/2024/12/achievements-1.png"
+    alt="Profile"
+    className="relative w-full md:w-160 h-auto md:h-140 z-10"
+  />
+
+  {/* Small accent box bottom left */}
+  <div className="absolute -bottom-4 -left-6 md:-bottom-6 md:-left-10 w-20 h-20 md:w-28 md:h-28 border-8 md:border-12 border-blue-700 rounded-md"></div>
+</div>
+
+
+{/* Right: Info */}
+<div className="w-full md:flex-1 md:ml-16 lg:ml-20 max-w-2xl pr-4">
+    {/* Heading + button */}
+    <div className="flex justify-between items-center mb-6">
+      <h2 className="text-3xl md:text-4xl font-bold">About Sharath</h2>
+
+      <button
+        className="relative overflow-hidden border-2 border-gray-200 px-3 py-1 font-semibold text-gray-800 text-xs rounded-sm"
+        onMouseEnter={() => setReadHovered(true)}
+        onMouseLeave={() => setReadHovered(false)}
+      >
+        {/* Sliding yellow background */}
+        <span
+          className={`absolute inset-0 bg-yellow-400 transition-transform duration-300 ${
+            readHovered ? "translate-x-0" : "-translate-x-full"
+          } z-0`}
+          style={{ pointerEvents: "none" }}
+        />
+        {/* Button content */}
+        <span
+          className={`relative z-10 flex items-center text-xs ${
+            readHovered ? "text-white" : "text-gray-800"
+          } transition-colors duration-300`}
+        >
+          READ MORE
+          <span className="inline-block ml-1">→</span>
+        </span>
+      </button>
+    </div>
+
+    {/* Description */}
+    <p className="text-gray-500 mb-8 text-lg leading-relaxed">
+      Weaving possibilities, connecting curious minds, shaping ideas, and guiding
+      talent toward personal and professional growth.
+    </p>
+
+    {/* Social icons row */}
+    <div className="flex space-x-5 mb-10">
+      <a
+        href="https://linkedin.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="bg-gray-600 hover:bg-blue-700 text-white rounded-full w-10 h-10 flex items-center justify-center transition"
+      >
+        <FaLinkedinIn size={18} />
+      </a>
+      <a
+        href="https://twitter.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="bg-gray-600 hover:bg-blue-400 text-white rounded-full w-10 h-10 flex items-center justify-center transition"
+      >
+        <FaTwitter size={18} />
+      </a>
+    </div>
+
+    {/* Info grid */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-12 md:gap-x-16 text-gray-800 text-base">
+      {/* Founder */}
+      <div className="bg-white px-4 py-2 border-gray-400 border-2 rounded-lg shadow transition-transform duration-200 hover:scale-105 hover:shadow-sm">
+        <div className="flex items-center mb-1 space-x-2">
+          <span className="text-xl text-blue-600">
+            <FaBuilding />
+          </span>
+          <span className="font-bold uppercase tracking-wide">Founder</span>
         </div>
+        <p>CEO & Leader of 4 Brands</p>
+      </div>
 
-        {/* Right: Info */}
-
-        <div className="md:ml-48 mt-12 md:mt-0 flex-1 max-w-xl">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-3xl md:text-4xl font-bold">About Sharath</h2>
-
-            <button
-              className="relative overflow-hidden border-2 border-gray-200 p-2 font-semibold text-gray-800 text-xs rounded-sm"
-              onMouseEnter={() => setReadHovered(true)}
-              onMouseLeave={() => setReadHovered(false)}
-            >
-              {/* Sliding yellow background */}
-              <span
-                className={`absolute inset-0 bg-yellow-400 transition-transform duration-300 
-          ${readHovered ? "translate-x-0" : "-translate-x-full"} z-0`}
-                style={{ pointerEvents: "none" }}
-              />
-              {/* Button content */}
-              <span
-                className={`relative z-10 flex items-center text-xs ${
-                  readHovered ? "text-white" : "text-gray-800"
-                } transition-colors duration-300`}
-              >
-                READ MORE
-                <span className="inline-block ml-1">→</span>
-              </span>
-            </button>
-          </div>
-          <p className="text-gray-500 mb-8 text-lg leading-relaxed">
-            Weaving possibilities, connecting curious minds, shaping ideas, and
-            guiding talent toward personal and professional growth.
-          </p>
-
-          {/* Social icons row */}
-          <div className="flex space-x-5 mb-10">
-            <a
-              href="https://linkedin.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-gray-600 hover:bg-blue-700 text-white rounded-full w-10 h-10 flex items-center justify-center transition"
-            >
-              <FaLinkedinIn size={18} />
-            </a>
-            <a
-              href="https://twitter.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-gray-600 hover:bg-blue-400 text-white rounded-full w-10 h-10 flex items-center justify-center transition"
-            >
-              <FaTwitter size={18} />
-            </a>
-          </div>
-
-          {/* Info grid */}
-          {/* About me detailed roles grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-16 text-gray-800 text-base">
-            {/* Founder */}
-            <div className="bg-white px-4 py-2 border-gray-400 border-2 rounded-lg shadow transition-transform duration-200 hover:scale-105 hover:shadow-sm">
-              <div className="flex items-center mb-1 space-x-2">
-                <span className="text-xl text-blue-600">
-                  <FaBuilding />
-                </span>
-                <span className="font-bold uppercase tracking-wide">
-                  Founder
-                </span>
-              </div>
-              <p>CEO & Leader of 4 Brands</p>
-            </div>
-
-            {/* Author */}
-            <div className="bg-white px-4 py-2 border-gray-400 border-2 rounded-lg shadow transition-transform duration-200 hover:scale-105 hover:shadow-sm">
-              <div className="flex items-center mb-1 space-x-2">
-                <span className="text-xl text-blue-600">
-                  <FaPenNib />
-                </span>
-                <span className="font-bold uppercase tracking-wide">
-                  Author
-                </span>
-              </div>
-              <p>Ideas Into Words</p>
-            </div>
-
-            {/* Digital Coach */}
-            <div className="bg-white px-4 py-2 border-gray-400 border-2 rounded-lg shadow transition-transform duration-200 hover:scale-105 hover:shadow-sm">
-              <div className="flex items-center mb-1 space-x-2">
-                <span className="text-xl text-blue-600">
-                  <FaLightbulb />
-                </span>
-                <span className="font-bold uppercase tracking-wide">
-                  Digital Coach
-                </span>
-              </div>
-              <p>Your Digital Growth Partner</p>
-            </div>
-
-            {/* Guest Professor */}
-            <div className="bg-white px-4 py-2 border-gray-400 border-2 rounded-lg shadow transition-transform duration-200 hover:scale-105 hover:shadow-sm">
-              <div className="flex items-center mb-1 space-x-2">
-                <span className="text-xl text-blue-600">
-                  <FaGraduationCap />
-                </span>
-                <span className="font-bold uppercase tracking-wide">
-                  Guest Professor
-                </span>
-              </div>
-              <p>Guiding Future Leaders</p>
-            </div>
-
-            {/* Speaker */}
-            <div className="bg-white px-4 py-2 border-gray-400 border-2 rounded-lg shadow transition-transform duration-200 hover:scale-105 hover:shadow-sm">
-              <div className="flex items-center mb-1 space-x-2">
-                <span className="text-xl text-blue-600">
-                  <FaMicrophone />
-                </span>
-                <span className="font-bold uppercase tracking-wide">
-                  Speaker
-                </span>
-              </div>
-              <p>Engaging Story Teller</p>
-            </div>
-          </div>
+      {/* Author */}
+      <div className="bg-white px-4 py-2 border-gray-400 border-2 rounded-lg shadow transition-transform duration-200 hover:scale-105 hover:shadow-sm">
+        <div className="flex items-center mb-1 space-x-2">
+          <span className="text-xl text-blue-600">
+            <FaPenNib />
+          </span>
+          <span className="font-bold uppercase tracking-wide">Author</span>
         </div>
-      </section>
+        <p>Ideas Into Words</p>
+      </div>
+
+      {/* Digital Coach */}
+      <div className="bg-white px-4 py-2 border-gray-400 border-2 rounded-lg shadow transition-transform duration-200 hover:scale-105 hover:shadow-sm">
+        <div className="flex items-center mb-1 space-x-2">
+          <span className="text-xl text-blue-600">
+            <FaLightbulb />
+          </span>
+          <span className="font-bold uppercase tracking-wide">
+            Digital Coach
+          </span>
+        </div>
+        <p>Your Digital Growth Partner</p>
+      </div>
+
+      {/* Guest Professor */}
+      <div className="bg-white px-4 py-2 border-gray-400 border-2 rounded-lg shadow transition-transform duration-200 hover:scale-105 hover:shadow-sm">
+        <div className="flex items-center mb-1 space-x-2">
+          <span className="text-xl text-blue-600">
+            <FaGraduationCap />
+          </span>
+          <span className="font-bold uppercase tracking-wide">
+            Guest Professor
+          </span>
+        </div>
+        <p>Guiding Future Leaders</p>
+      </div>
+
+      {/* Speaker */}
+      <div className="bg-white px-4 py-2 border-gray-400 border-2 rounded-lg shadow transition-transform duration-200 hover:scale-105 hover:shadow-sm">
+        <div className="flex items-center mb-1 space-x-2">
+          <span className="text-xl text-blue-600">
+            <FaMicrophone />
+          </span>
+          <span className="font-bold uppercase tracking-wide">Speaker</span>
+        </div>
+        <p>Engaging Story Teller</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 
       {/* Swiper Section */}
       <section className="flex flex-col justify-center px-6 py-4 relative overflow-visible">
