@@ -5,7 +5,7 @@ const BlogSection = () => {
     const [Hovered, setHovered] = useState(false);
 
   return (
-    <section className="container mx-auto px-4 py-12">
+    <section className="max-w-7xl mx-auto px-4 py-12">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
         {/* Left column: content */}
         <div className="flex flex-col justify-center p-6 h-100 w-100">

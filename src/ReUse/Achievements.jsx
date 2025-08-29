@@ -94,7 +94,7 @@ export default function Achievements() {
   }
 
   return (
-    <section className="px-4 sm:px-6 lg:px-12 py-12">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-12">
       <div className="max-w-7xl mx-auto text-center mb-8">
         <h3 className="text-3xl font-bold mb-4">Our Achievements</h3>
         <div className="border-2 border-yellow-300 w-40 mx-auto mb-2"></div>

@@ -164,7 +164,7 @@ const Hero = () => {
   `,
         }}
       >
-        <div className="container mx-auto flex flex-col md:flex-row items-center px-6 py-12 relative z-10">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center px-6 py-12 relative z-10">
           {/* Left content (was right content) */}
           <div className="md:w-1/2 text-gray-900 order-last md:order-first z-20">
             <div className="bg inline-block px-2 py-2">
@@ -216,67 +216,46 @@ const Hero = () => {
   ref={sectionRef}
   className="relative w-full h-[400px] flex items-center overflow-hidden"
 >
-  <div className="container mx-auto flex flex-col md:flex-row items-center px-4 sm:px-6 lg:px-8 py-12 relative z-10 w-full h-full">
+  <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center 
+                  px-2 sm:px-4 lg:px-6 py-12 relative z-10 w-full h-full">
     {/* Left content */}
-    <div className="w-full md:w-5/12 relative h-full bg-white bg-opacity-80 z-10 p-6 sm:p-8">
-      {/* Block 1: Top left, wide */}
-      <div className="absolute left-3 top-0 w-[58%] h-[60%] flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300 bg rounded-lg shadow-lg p-2">
-        <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-2 tracking-wide">
-          04
-        </h2>
-        <p className="text-white text-base md:text-lg text-center">
-          Brands
-        </p>
-      </div>
+    <div className="w-full md:w-6/12 grid grid-cols-2 grid-rows-2 gap-2">
+  <div className="w-70 h-40 flex flex-col items-center justify-center bg rounded-lg shadow-lg">
+    <h2 className="text-4xl font-extrabold text-white">04</h2>
+    <p className="text-white">Brands</p>
+  </div>
+  <div className="w-50 h-40 flex flex-col items-center justify-center bg-yellow-400 rounded-lg shadow-lg">
+    <h2 className="text-2xl font-bold text-white">100+</h2>
+    <p className="text-gray-600">Clients</p>
+  </div>
+  <div className="w-50 h-40 flex flex-col items-center justify-center bg-yellow-400 rounded-lg shadow-lg">
+    <h2 className="text-2xl font-bold text-white">50</h2>
+    <p className="text-gray-600">Workshop</p>
+  </div>
+  <div className="w-70 h-40 flex flex-col items-center justify-center bg rounded-lg shadow-lg -ml-20">
+    <h2 className="text-2xl font-bold text-white">10+</h2>
+    <p className="text-white">Years of Expertise</p>
+  </div>
+</div>
 
-      {/* Block 2: Top right, small */}
-      <div className="absolute right-0 top-0 w-[38%] h-[40%] flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300 bg-yellow-400 rounded-lg shadow-lg p-2">
-        <h2 className="text-2xl font-bold text-white mb-2 tracking-wide">
-          100+
-        </h2>
-        <p className="text-gray-600 text-sm text-center">Clients</p>
-      </div>
-
-      {/* Block 3: Bottom right, small */}
-      <div className="absolute right-0 bottom-0 w-[38%] h-[56%] flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300 bg rounded-lg shadow-lg p-2">
-        <h2 className="text-2xl font-bold text-white mb-2 tracking-wide">
-          10+
-        </h2>
-        <p className="text-white text-sm text-center">
-          Years of Expertise
-        </p>
-      </div>
-
-      {/* Block 4: Bottom left, wide */}
-      <div className="absolute left-0 bottom-0 w-[58%] h-[36%] flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300 bg-yellow-400 rounded-lg shadow-lg p-2">
-        <h2 className="text-2xl font-bold text-white tracking-wide">
-          50
-        </h2>
-        <p className="text-gray-600 text-sm md:text-lg text-center">
-          Workshop
-        </p>
-      </div>
-    </div>
 
     {/* Right side content */}
-    <div className="hidden md:flex flex-col items-start justify-center md:w-7/12 h-full relative overflow-hidden z-0 bg-white px-6 md:px-10 lg:px-16">
+    <div className="hidden md:flex flex-col items-start justify-center md:w-7/12 h-full relative overflow-hidden z-0 bg-white px-4 md:px-6 lg:px-10">
       <h3 className="text-3xl md:text-5xl font-bold text-black mb-6 leading-tight max-w-md text-left w-full">
         Growth Figures
       </h3>
       <p className="text-sm md:text-lg text-gray-600 mb-8 max-w-lg text-left">
         With over a decade of experience, Sharath Ravikumar has built a
-        reputation for delivering measurable results, empowering
-        businesses, and transforming digital potential into sustainable
-        growth and meaningful impact.
+        reputation for delivering measurable results, empowering businesses,
+        and transforming digital potential into sustainable growth and
+        meaningful impact.
       </p>
       <button
         onClick={() => navigate("/contact-us")}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         className={`relative overflow-hidden px-8 py-3 rounded-lg border-2 font-semibold transition-colors duration-300 border-yellow-400 ${
-          hovered
-            ? "bg-yellow-400 text-white"
-            : "bg-transparent text-yellow-400"
+          hovered ? "bg-yellow-400 text-white" : "bg-transparent text-yellow-400"
         }`}
       >
         <span className="relative z-10">Contact Us</span>
@@ -288,7 +267,7 @@ const Hero = () => {
         >
           →
         </span>
-        {/* Background sliding from left to right */}
+        {/* Background sliding */}
         <span
           className={`absolute inset-0 bg-yellow-400 transition-transform duration-300 ${
             hovered ? "translate-x-0" : "-translate-x-full"
@@ -299,6 +278,7 @@ const Hero = () => {
     </div>
   </div>
 </section>
+
 
 
       {/* about me */}

@@ -14,6 +14,11 @@ html, body {
   overflow-x: hidden; /* prevents horizontal scroll */
 }
 
+html, body {
+  overflow-x: hidden;
+}
+
+
 motion-element {
   will-change: transform, opacity;
 }

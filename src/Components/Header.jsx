@@ -43,7 +43,7 @@ const Header = () => {
       transition={{ duration: 0.4, ease: "easeOut" }}
       className={`fixed top-0 left-0 w-full z-50 transition-colors duration-500 ease-in-out ${bgClass} ${textClass}`}
     >
-      <div className="container mx-auto flex items-center justify-between px-6 py-3">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
         {/* Left Logo */}
         <img
           src="/assets/SRK-logo.png"
