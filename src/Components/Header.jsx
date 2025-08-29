@@ -31,7 +31,7 @@ const Header = () => {
   const itemVariants = {
     hidden: { opacity: 0, y: 10 },
     visible: { opacity: 1, y: 0 },
-    hover: { scale: 1.05, color: "#FBBF24" }, // Tailwind yellow-400 color
+    hover: { scale: 1.05, color: "#050505ff" }, // Tailwind yellow-400 color
   };
 
   return (
@@ -53,8 +53,8 @@ const Header = () => {
         />
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex space-x-8 text-lg font-semibold text-gray-900 -ml-6">
-          <Link to="/" className="text-blue-600 hover:text-yellow-600 mr-8">
+        <nav className="hidden md:flex space-x-8 text-lg font-semibold text-gray-900">
+          <Link to="/" className="text-black hover:text-blue-600 mr-8">
             Home
           </Link>
 
@@ -63,7 +63,7 @@ const Header = () => {
             onMouseEnter={() => setDropdownOpen(true)}
             onMouseLeave={() => setDropdownOpen(false)}
           >
-            <button className="text-blue-600 hover:text-yellow-600 transition-colors">About</button>
+            <button className="text-black hover:text-blue-600 transition-colors">About</button>
 
             <AnimatePresence>
               {dropdownOpen && (
@@ -81,7 +81,7 @@ const Header = () => {
                       whileHover="hover"
                       className="cursor-pointer p-2 rounded"
                     >
-                      <Link to="/About-Us" className="block hover:text-yellow-600 transition-colors">
+                      <Link to="/About-Us" className="block hover:text-blue-600 transition-colors">
                         Who We Are
                       </Link>
                     </motion.li>
@@ -91,7 +91,7 @@ const Header = () => {
                       whileHover="hover"
                       className="cursor-pointer p-2 rounded"
                     >
-                      <Link to="/clients" className="block hover:text-yellow-600 transition-colors">
+                      <Link to="/clients" className="block hover:text-blue-600 transition-colors">
                         Clients
                       </Link>
                     </motion.li>
@@ -101,13 +101,13 @@ const Header = () => {
             </AnimatePresence>
           </div>
 
-          <Link to="/consult" className="text-blue-600 hover:text-yellow-600">
+          <Link to="/consult" className="text-black hover:text-blue-600">
             Consult Sharath
           </Link>
-          <Link to="/brands" className="text-blue-600 hover:text-yellow-600">
+          <Link to="/brands" className="text-black hover:text-blue-600">
             Brands
           </Link>
-          <Link to="/blogs" className="text-blue-600 hover:text-yellow-600 -ml-2">
+          <Link to="/blogs" className="text-black hover:text-blue-600 -ml-2">
             Blogs
           </Link>
         </nav>

@@ -157,8 +157,8 @@ const Hero = () => {
     linear-gradient(
       131deg,
       #ffffff 0%,
-      #ffffff 50%,
-      #4896e9ff 50%,   /* lighter blue */
+      #ffffff 40%,
+      #4896e9ff 65%,   /* lighter blue */
       #013685ff 100%   /* darker blue */
     ) fixed
   `,
@@ -173,7 +173,7 @@ const Hero = () => {
               </h1>
             </div>
             <br />
-            <div className="bg-white inline-block px-2 py-2">
+            <div className="inline-block px-2 py-2">
               <h1 className="text-xl md:text-4xl font-extrabold text-center m-0">
                 professional growth...
               </h1>
@@ -192,7 +192,7 @@ const Hero = () => {
               businesses strengthen their digital presence, scale effectively,
               and achieve lasting growth.
             </p>
-            <button className="bg text-black font-semibold px-6 py-3">
+            <button className="bg text-black font-semibold px-6 py-3 md:mb-0 mb-2">
               Explore My Work
             </button>
             <button className="bg-yellow-400 ml-2 hover:bg-yellow-500 text-black font-semibold px-6 py-3">
@@ -214,25 +214,25 @@ const Hero = () => {
       {/* Next Sections */}
       <section
   ref={sectionRef}
-  className="relative w-full h-[400px] flex items-center overflow-hidden"
+  className="relative w-full h-[400px] flex items-center overflow-visible"
 >
-  <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center 
-                  px-2 sm:px-4 lg:px-6 py-12 relative z-10 w-full h-full">
+  <div className="max-w-7xl mx-auto md:-mr-4 flex flex-col md:flex-row items-center 
+                  px-2 sm:px-4 lg:px-6 py-8 md:py-16 relative z-10 w-full h-auto md:h-full">
     {/* Left content */}
     <div className="w-full md:w-6/12 grid grid-cols-2 grid-rows-2 gap-2">
-  <div className="w-70 h-40 flex flex-col items-center justify-center bg rounded-lg shadow-lg">
+  <div className="w-45 h-40 md:w-70 md:h-40  flex flex-col items-center justify-center bg rounded-lg shadow-lg">
     <h2 className="text-4xl font-extrabold text-white">04</h2>
     <p className="text-white">Brands</p>
   </div>
-  <div className="w-50 h-40 flex flex-col items-center justify-center bg-yellow-400 rounded-lg shadow-lg">
+  <div className="w-45 h-40 md:w-50 md:h-40 flex flex-col items-center justify-center bg-yellow-400 rounded-lg shadow-lg">
     <h2 className="text-2xl font-bold text-white">100+</h2>
     <p className="text-gray-600">Clients</p>
   </div>
-  <div className="w-50 h-40 flex flex-col items-center justify-center bg-yellow-400 rounded-lg shadow-lg">
+  <div className="w-45 h-40 md:w-50 md:h-40 flex flex-col items-center justify-center bg-yellow-400 rounded-lg shadow-lg">
     <h2 className="text-2xl font-bold text-white">50</h2>
     <p className="text-gray-600">Workshop</p>
   </div>
-  <div className="w-70 h-40 flex flex-col items-center justify-center bg rounded-lg shadow-lg -ml-20">
+  <div className="w-45 h-40 md:w-70 md:h-40 flex flex-col items-center justify-center bg rounded-lg shadow-lg md:-ml-20">
     <h2 className="text-2xl font-bold text-white">10+</h2>
     <p className="text-white">Years of Expertise</p>
   </div>
@@ -244,17 +244,16 @@ const Hero = () => {
       <h3 className="text-3xl md:text-5xl font-bold text-black mb-6 leading-tight max-w-md text-left w-full">
         Growth Figures
       </h3>
-      <p className="text-sm md:text-lg text-gray-600 mb-8 max-w-lg text-left">
+      <p className="text-sm md:text-lg text-gray-600 mb-8 max-w-sm text-left">
         With over a decade of experience, Sharath Ravikumar has built a
         reputation for delivering measurable results, empowering businesses,
-        and transforming digital potential into sustainable growth and
-        meaningful impact.
+        and transforming digital potential
       </p>
       <button
         onClick={() => navigate("/contact-us")}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        className={`relative overflow-hidden px-8 py-3 rounded-lg border-2 font-semibold transition-colors duration-300 border-yellow-400 ${
+        className={`relative overflow-hidden px-8 py-1 h-20 rounded-lg border-2 font-semibold transition-colors duration-300 border-yellow-400 ${
           hovered ? "bg-yellow-400 text-white" : "bg-transparent text-yellow-400"
         }`}
       >
@@ -342,7 +341,7 @@ const Hero = () => {
         href="https://linkedin.com/"
         target="_blank"
         rel="noopener noreferrer"
-        className="bg-gray-600 hover:bg-blue-700 text-white rounded-full w-10 h-10 flex items-center justify-center transition"
+        className="bg-blue-700 text-white rounded-full w-10 h-10 flex items-center justify-center transition"
       >
         <FaLinkedinIn size={18} />
       </a>
@@ -350,7 +349,7 @@ const Hero = () => {
         href="https://twitter.com/"
         target="_blank"
         rel="noopener noreferrer"
-        className="bg-gray-600 hover:bg-blue-400 text-white rounded-full w-10 h-10 flex items-center justify-center transition"
+        className="bg-blue-400 text-white rounded-full w-10 h-10 flex items-center justify-center transition"
       >
         <FaTwitter size={18} />
       </a>
