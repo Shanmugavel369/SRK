@@ -201,7 +201,7 @@ const Hero = () => {
           </div>
 
           {/* Right image (was left image) */}
-          <div className="md:w-1/2 mt-10 md:mt-0 relative">
+          <div className="md:w-1/2 mt-10 md:mt-0 relative hidden md:block">
             <img
               src="https://sharathravikumar.com/wp-content/uploads/2024/12/sharath.png"
               alt="Hero"

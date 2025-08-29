@@ -17,7 +17,9 @@ import ScrollToTop from "./ReUse/ScrollToTop";
 const App = () => {
 
   return (
-    <div>
+    <div className="bg-white text-gray-900">
+      {/* Global container to control width + margins */}
+      <div className="max-w-screen-2xl mx-auto">
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -30,7 +32,7 @@ const App = () => {
         <StickyCTAForm />
         <ScrollToTop />
         <Footer />
-
+      </div>
     </div>
   );
 };
