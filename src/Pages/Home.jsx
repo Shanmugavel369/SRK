@@ -15,12 +15,13 @@ import InviteSection from "../ReUse/InviteSection";
 import {
   FaLinkedinIn,
   FaTwitter,
-  FaGraduationCap,
-  FaMicrophone,
-  FaBuilding,
+  FaUserTie,
   FaPenNib,
-  FaLightbulb,
+  FaChalkboardTeacher,
 } from "react-icons/fa";
+
+import { MdOutlineCastForEducation } from "react-icons/md";
+import { GiPublicSpeaker } from "react-icons/gi";
 
 import BlogSection from "../ReUse/BlogSection";
 import Achievements from "../ReUse/Achievements";
@@ -151,39 +152,30 @@ const Hero = () => {
     <div className="relative">
       {/* Hero Section */}
       <section
-        className="relative min-h-screen flex items-center"
-        style={{
-          background: `
-    linear-gradient(
-      131deg,
-      #ffffff 0%,
-      #ffffff 40%,
-      #4896e9ff 65%,   /* lighter blue */
-      #013685ff 100%   /* darker blue */
-    ) fixed
-  `,
-        }}
+        className="relative h-[750px] flex items-center"
+        //       style={{
+        //         background: `
+        //   linear-gradient(
+        //     131deg,
+        //     #ffffff 0%,
+        //     #ffffff 40%,
+        //     #4896e9ff 65%,   /* lighter blue */
+        //     #013685ff 100%   /* darker blue */
+        //   ) fixed
+        // `,
+        //       }}
       >
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center px-6 py-12 relative z-10">
           {/* Left content (was right content) */}
           <div className="md:w-1/2 text-gray-900 order-last md:order-first z-20">
-            <div className="bg inline-block px-2 py-2">
-              <h1 className="text-xl md:text-4xl font-extrabold text-center m-0">
-                Accelerate the
+            <div className="inline-block">
+              <h1 className="text-xl md:text-6xl font-bold text-start">
+                India's Leading
+                <br />
+                <span className="text-yellow-400">Digital Marketing</span>
+                <br />
+                Consultant & Educator
               </h1>
-            </div>
-            <br />
-            <div className="inline-block px-2 py-2">
-              <h1 className="text-xl md:text-4xl font-extrabold text-center m-0">
-                professional growth...
-              </h1>
-
-              <div>
-                <h2 className="text-4xl font-bold text-blue-600">
-                  {displayedText}|
-                </h2>
-              </div>
-              <div className="border-8 border-yellow-300 w-22 -mt-6 -ml-26"></div>
             </div>
             <p className="text-lg mb-6 mt-10">
               Sharath Ravikumar is a Digital Marketing Consultant, Agency
@@ -192,10 +184,10 @@ const Hero = () => {
               businesses strengthen their digital presence, scale effectively,
               and achieve lasting growth.
             </p>
-            <button className="bg text-black font-semibold px-6 py-3 md:mb-0 mb-2">
+            <button className="bg text-black font-semibold px-6 py-3 md:mb-0 mb-2 rounded-lg">
               Explore My Work
             </button>
-            <button className="bg-yellow-400 ml-2 hover:bg-yellow-500 text-black font-semibold px-6 py-3">
+            <button className="bg-yellow-400 ml-2 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg">
               Book an Appointment
             </button>
           </div>
@@ -213,212 +205,237 @@ const Hero = () => {
 
       {/* Next Sections */}
       <section
-  ref={sectionRef}
-  className="relative w-full h-[400px] flex items-center overflow-visible"
->
-  <div className="max-w-7xl mx-auto md:-mr-4 flex flex-col md:flex-row items-center 
-                  px-2 sm:px-4 lg:px-6 py-8 md:py-16 relative z-10 w-full h-auto md:h-full">
-    {/* Left content */}
-    <div className="w-full md:w-6/12 grid grid-cols-2 grid-rows-2 gap-2">
-  <div className="w-45 h-40 md:w-70 md:h-40  flex flex-col items-center justify-center bg rounded-lg shadow-lg">
-    <h2 className="text-4xl font-extrabold text-white">04</h2>
-    <p className="text-white">Brands</p>
-  </div>
-  <div className="w-45 h-40 md:w-50 md:h-40 flex flex-col items-center justify-center bg-yellow-400 rounded-lg shadow-lg">
-    <h2 className="text-2xl font-bold text-white">100+</h2>
-    <p className="text-gray-600">Clients</p>
-  </div>
-  <div className="w-45 h-40 md:w-50 md:h-40 flex flex-col items-center justify-center bg-yellow-400 rounded-lg shadow-lg">
-    <h2 className="text-2xl font-bold text-white">50</h2>
-    <p className="text-gray-600">Workshop</p>
-  </div>
-  <div className="w-45 h-40 md:w-70 md:h-40 flex flex-col items-center justify-center bg rounded-lg shadow-lg md:-ml-20">
-    <h2 className="text-2xl font-bold text-white">10+</h2>
-    <p className="text-white">Years of Expertise</p>
-  </div>
-</div>
-
-
-    {/* Right side content */}
-    <div className="hidden md:flex flex-col items-start justify-center md:w-7/12 h-full relative overflow-hidden z-0 bg-white px-4 md:px-6 lg:px-10">
-      <h3 className="text-3xl md:text-5xl font-bold text-black mb-6 leading-tight max-w-md text-left w-full">
-        Growth Figures
-      </h3>
-      <p className="text-sm md:text-lg text-gray-600 mb-8 max-w-sm text-left">
-        With over a decade of experience, Sharath Ravikumar has built a
-        reputation for delivering measurable results, empowering businesses,
-        and transforming digital potential
-      </p>
-      <button
-        onClick={() => navigate("/contact-us")}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        className={`relative overflow-hidden px-8 py-1 h-20 rounded-lg border-2 font-semibold transition-colors duration-300 border-yellow-400 ${
-          hovered ? "bg-yellow-400 text-white" : "bg-transparent text-yellow-400"
-        }`}
+        ref={sectionRef}
+        className="relative w-full h-[400px] flex items-center overflow-visible"
       >
-        <span className="relative z-10">Contact Us</span>
-        {/* Sliding arrow */}
-        <span
-          className={`absolute top-1/2 -translate-y-1/2 right-3 text-white font-bold transition-transform duration-300 z-10 ${
-            hovered ? "translate-x-0 opacity-100" : "translate-x-6 opacity-0"
-          }`}
+        <div
+          className="max-w-7xl mx-auto md:-mr-4 flex flex-col md:flex-row items-center 
+                  px-2 sm:px-4 lg:px-6 py-8 md:py-16 relative z-10 w-full h-auto md:h-full"
         >
-          →
-        </span>
-        {/* Background sliding */}
-        <span
-          className={`absolute inset-0 bg-yellow-400 transition-transform duration-300 ${
-            hovered ? "translate-x-0" : "-translate-x-full"
-          } z-0`}
-          style={{ pointerEvents: "none" }}
-        />
-      </button>
-    </div>
-  </div>
-</section>
+          {/* Left content */}
+          <div className="w-full md:w-6/12 grid grid-cols-2 grid-rows-2 gap-2">
+            <div className="w-45 h-40 md:w-70 md:h-40  flex flex-col items-center justify-center bg rounded-lg shadow-lg">
+              <h2 className="text-4xl font-extrabold text-white">04</h2>
+              <p className="text-white">Brands</p>
+            </div>
+            <div className="w-45 h-40 md:w-50 md:h-40 flex flex-col items-center justify-center bg-yellow-400 rounded-lg shadow-lg">
+              <h2 className="text-2xl font-bold text-black">100+</h2>
+              <p className="text-gray-600">Clients</p>
+            </div>
+            <div className="w-45 h-40 md:w-50 md:h-40 flex flex-col items-center justify-center bg-yellow-400 rounded-lg shadow-lg">
+              <h2 className="text-2xl font-bold text-black">50</h2>
+              <p className="text-gray-600">Workshop</p>
+            </div>
+            <div className="w-45 h-40 md:w-70 md:h-40 flex flex-col items-center justify-center bg rounded-lg shadow-lg md:-ml-20">
+              <h2 className="text-2xl font-bold text-white">10+</h2>
+              <p className="text-white">Years of Expertise</p>
+            </div>
+          </div>
 
-
+          {/* Right side content */}
+          <div className="hidden md:flex flex-col items-start justify-center md:w-7/12 h-full relative overflow-hidden z-0 bg-white px-4 md:px-6 lg:px-10">
+            <h3 className="text-3xl md:text-5xl font-bold text-black mb-6 leading-tight max-w-md text-left w-full">
+              Growth Figures
+            </h3>
+            <p className="text-sm md:text-lg text-gray-600 mb-8 max-w-sm text-left">
+              With over a decade of experience, Sharath Ravikumar has built a
+              reputation for delivering measurable results, empowering
+              businesses, and transforming digital potential
+            </p>
+            <button
+              onClick={() => navigate("/contact-us")}
+              onMouseEnter={() => setHovered(true)}
+              onMouseLeave={() => setHovered(false)}
+              className={`relative overflow-hidden px-8 py-1 h-20 rounded-lg border-2 font-semibold transition-colors duration-300 border-yellow-400 ${
+                hovered
+                  ? "bg-yellow-400 text-white"
+                  : "bg-transparent text-yellow-400"
+              }`}
+            >
+              <span className="relative z-10">Contact Us</span>
+              {/* Sliding arrow */}
+              <span
+                className={`absolute top-1/2 -translate-y-1/2 right-3 text-white font-bold transition-transform duration-300 z-10 ${
+                  hovered
+                    ? "translate-x-0 opacity-100"
+                    : "translate-x-6 opacity-0"
+                }`}
+              >
+                →
+              </span>
+              {/* Background sliding */}
+              <span
+                className={`absolute inset-0 bg-yellow-400 transition-transform duration-300 ${
+                  hovered ? "translate-x-0" : "-translate-x-full"
+                } z-0`}
+                style={{ pointerEvents: "none" }}
+              />
+            </button>
+          </div>
+        </div>
+      </section>
 
       {/* about me */}
       <section className="flex flex-col gap-12 md:flex-row items-center md:items-start bg-white py-12 px-4 sm:px-8 md:px-16 lg:px-32">
-  {/* Left: Photo with accent boxes */}
-<div className="relative w-full md:w-1/3 max-w-md mx-auto md:mx-0 md:ml-8 lg:ml-12 mb-12 md:mb-0">
-  {/* Large accent box background */}
-  <div className="absolute -top-6 -right-6 md:-top-8 md:-right-10 w-48 h-48 md:w-60 md:h-60 bg-yellow-400 rounded-md z-0"></div>
+        {/* Left: Photo with accent boxes */}
+        <div className="relative w-full md:w-1/3 max-w-md mx-auto md:mx-0 md:ml-8 lg:ml-12 mb-12 md:mb-0">
+          {/* Large accent box background */}
+          <div className="absolute -top-6 -right-6 md:-top-8 md:-right-10 w-48 h-48 md:w-60 md:h-60 bg-yellow-400 rounded-md z-0"></div>
 
-  {/* Profile photo */}
-  <img
-    src="https://sharathravikumar.com/wp-content/uploads/2024/12/achievements-1.png"
-    alt="Profile"
-    className="relative w-full md:w-160 h-auto md:h-140 z-10"
-  />
+          {/* Profile photo */}
+          <img
+            src="https://sharathravikumar.com/wp-content/uploads/2024/12/achievements-1.png"
+            alt="Profile"
+            className="relative w-full md:w-160 h-auto md:h-140 z-10"
+          />
 
-  {/* Small accent box bottom left */}
-  <div className="absolute -bottom-4 -left-6 md:-bottom-6 md:-left-10 w-20 h-20 md:w-28 md:h-28 border-8 md:border-12 border-blue-700 rounded-md"></div>
-</div>
-
-
-{/* Right: Info */}
-<div className="w-full md:flex-1 md:ml-16 lg:ml-20 max-w-2xl pr-4">
-    {/* Heading + button */}
-    <div className="flex justify-between items-center mb-6">
-      <h2 className="text-3xl md:text-4xl font-bold">About Sharath</h2>
-
-      <button
-        className="relative overflow-hidden border-2 border-gray-200 px-3 py-1 font-semibold text-gray-800 text-xs rounded-sm"
-        onMouseEnter={() => setReadHovered(true)}
-        onMouseLeave={() => setReadHovered(false)}
-      >
-        {/* Sliding yellow background */}
-        <span
-          className={`absolute inset-0 bg-yellow-400 transition-transform duration-300 ${
-            readHovered ? "translate-x-0" : "-translate-x-full"
-          } z-0`}
-          style={{ pointerEvents: "none" }}
-        />
-        {/* Button content */}
-        <span
-          className={`relative z-10 flex items-center text-xs ${
-            readHovered ? "text-white" : "text-gray-800"
-          } transition-colors duration-300`}
-        >
-          READ MORE
-          <span className="inline-block ml-1">→</span>
-        </span>
-      </button>
-    </div>
-
-    {/* Description */}
-    <p className="text-gray-500 mb-8 text-lg leading-relaxed">
-      Weaving possibilities, connecting curious minds, shaping ideas, and guiding
-      talent toward personal and professional growth.
-    </p>
-
-    {/* Social icons row */}
-    <div className="flex space-x-5 mb-10">
-      <a
-        href="https://linkedin.com/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="bg-blue-700 text-white rounded-full w-10 h-10 flex items-center justify-center transition"
-      >
-        <FaLinkedinIn size={18} />
-      </a>
-      <a
-        href="https://twitter.com/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="bg-blue-400 text-white rounded-full w-10 h-10 flex items-center justify-center transition"
-      >
-        <FaTwitter size={18} />
-      </a>
-    </div>
-
-    {/* Info grid */}
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-12 md:gap-x-16 text-gray-800 text-base">
-      {/* Founder */}
-      <div className="bg-white px-4 py-2 border-gray-400 border-2 rounded-lg shadow transition-transform duration-200 hover:scale-105 hover:shadow-sm">
-        <div className="flex items-center mb-1 space-x-2">
-          <span className="text-xl text-blue-600">
-            <FaBuilding />
-          </span>
-          <span className="font-bold uppercase tracking-wide">Founder</span>
+          {/* Small accent box bottom left */}
+          <div className="absolute -bottom-4 -left-6 md:-bottom-6 md:-left-10 w-20 h-20 md:w-28 md:h-28 border-8 md:border-12 border-blue-700 rounded-md"></div>
         </div>
-        <p>CEO & Leader of 4 Brands</p>
-      </div>
 
-      {/* Author */}
-      <div className="bg-white px-4 py-2 border-gray-400 border-2 rounded-lg shadow transition-transform duration-200 hover:scale-105 hover:shadow-sm">
-        <div className="flex items-center mb-1 space-x-2">
-          <span className="text-xl text-blue-600">
-            <FaPenNib />
-          </span>
-          <span className="font-bold uppercase tracking-wide">Author</span>
+        {/* Right: Info */}
+        <div className="w-full md:flex-1 md:ml-16 lg:ml-20 max-w-2xl pr-4">
+          {/* Heading + button */}
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold">About Sharath</h2>
+
+            <button
+              className="relative overflow-hidden border-2 border-yellow-400 px-2 py-2 font-semibold text-yellow-400 text-xs rounded-lg"
+              onMouseEnter={() => setReadHovered(true)}
+              onMouseLeave={() => setReadHovered(false)}
+            >
+              {/* Sliding yellow background */}
+              <span
+                className={`absolute inset-0 bg-yellow-400 transition-transform duration-300 ${
+                  readHovered ? "translate-x-0" : "-translate-x-full"
+                } z-0`}
+                style={{ pointerEvents: "none" }}
+              />
+              {/* Button content */}
+              <span
+                className={`relative z-10 flex items-center text-xs ${
+                  readHovered ? "text-white" : "text-yellow-400"
+                } transition-colors duration-300`}
+              >
+                READ MORE
+                <span className="inline-block ml-1">→</span>
+              </span>
+            </button>
+          </div>
+
+          {/* Description */}
+          <p className="text-gray-500 mb-8 text-lg leading-relaxed">
+            Weaving possibilities, connecting curious minds, shaping ideas, and
+            guiding talent toward personal and professional growth. Lorem, ipsum
+            dolor sit amet consectetur adipisicing elit. Ut eius assumenda
+            labore odit recusandae quaerat ea enim, et saepe officiis ab
+            obcaecati qui dignissimos.
+          </p>
+
+          {/* Social icons row */}
+          <div className="flex space-x-5 mb-10">
+            <a
+              href="https://linkedin.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-blue-700 text-white rounded-full w-10 h-10 flex items-center justify-center transition"
+            >
+              <FaLinkedinIn size={18} />
+            </a>
+            <a
+              href="https://twitter.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-blue-400 text-white rounded-full w-10 h-10 flex items-center justify-center transition"
+            >
+              <FaTwitter size={18} />
+            </a>
+          </div>
+
+          {/* Info grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-12 md:gap-x-16 text-gray-800 text-base">
+            {/* Founder */}
+            <div className="bg-white px-4 py-2 transition-transform duration-200 hover:scale-105">
+              <div className="flex items-center space-x-4">
+                {/* Left Side - Icon */}
+                <span className="text-3xl text-white bg px-2 py-2 rounded-lg">
+                  <FaUserTie />
+                </span>
+
+                {/* Right Side - Title + Description */}
+                <div>
+                  <span className="block font-bold uppercase tracking-wide">
+                    Founder
+                  </span>
+                  <p className="text-gray-700">CEO & Leader of 4 Brands</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Author */}
+            <div className="bg-white px-4 py-3 transition-transform duration-200 hover:scale-105">
+              <div className="flex items-center space-x-4">
+                {/* Icon */}
+                <span className="text-3xl text-white bg px-2 py-2 rounded-lg">
+                  <FaPenNib />
+                </span>
+                {/* Content */}
+                <div>
+                  <span className="block font-bold uppercase tracking-wide">
+                    Author
+                  </span>
+                  <p className="text-gray-700">Ideas Into Words</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Digital Coach */}
+            <div className="bg-white px-4 py-3 transition-transform duration-200 hover:scale-105">
+              <div className="flex items-center space-x-4">
+                <span className="text-3xl text-white bg px-2 py-2 rounded-lg">
+                  <FaChalkboardTeacher />
+                </span>
+                <div>
+                  <span className="block font-bold uppercase tracking-wide">
+                    Digital Coach
+                  </span>
+                  <p className="text-gray-700">Your Digital Growth Partner</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Guest Professor */}
+            <div className="bg-white px-4 py-3 transition-transform duration-200 hover:scale-105">
+              <div className="flex items-center space-x-4">
+                <span className="text-3xl text-white bg px-2 py-2 rounded-lg">
+                  <MdOutlineCastForEducation />
+                </span>
+                <div>
+                  <span className="block font-bold uppercase tracking-wide">
+                    Guest Professor
+                  </span>
+                  <p className="text-gray-700">Guiding Future Leaders</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Speaker */}
+            <div className="bg-white px-4 py-3 transition-transform duration-200 hover:scale-105">
+              <div className="flex items-center space-x-4">
+                <span className="text-3xl text-white bg px-2 py-2 rounded-lg">
+                  <GiPublicSpeaker />
+                </span>
+                <div>
+                  <span className="block font-bold uppercase tracking-wide">
+                    Speaker
+                  </span>
+                  <p className="text-gray-700">Engaging Story Teller</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <p>Ideas Into Words</p>
-      </div>
-
-      {/* Digital Coach */}
-      <div className="bg-white px-4 py-2 border-gray-400 border-2 rounded-lg shadow transition-transform duration-200 hover:scale-105 hover:shadow-sm">
-        <div className="flex items-center mb-1 space-x-2">
-          <span className="text-xl text-blue-600">
-            <FaLightbulb />
-          </span>
-          <span className="font-bold uppercase tracking-wide">
-            Digital Coach
-          </span>
-        </div>
-        <p>Your Digital Growth Partner</p>
-      </div>
-
-      {/* Guest Professor */}
-      <div className="bg-white px-4 py-2 border-gray-400 border-2 rounded-lg shadow transition-transform duration-200 hover:scale-105 hover:shadow-sm">
-        <div className="flex items-center mb-1 space-x-2">
-          <span className="text-xl text-blue-600">
-            <FaGraduationCap />
-          </span>
-          <span className="font-bold uppercase tracking-wide">
-            Guest Professor
-          </span>
-        </div>
-        <p>Guiding Future Leaders</p>
-      </div>
-
-      {/* Speaker */}
-      <div className="bg-white px-4 py-2 border-gray-400 border-2 rounded-lg shadow transition-transform duration-200 hover:scale-105 hover:shadow-sm">
-        <div className="flex items-center mb-1 space-x-2">
-          <span className="text-xl text-blue-600">
-            <FaMicrophone />
-          </span>
-          <span className="font-bold uppercase tracking-wide">Speaker</span>
-        </div>
-        <p>Engaging Story Teller</p>
-      </div>
-    </div>
-  </div>
-</section>
-
+      </section>
 
       {/* Swiper Section */}
       <section className="flex flex-col justify-center px-6 py-4 relative overflow-visible">
@@ -520,21 +537,12 @@ const Hero = () => {
         {/* Right side buttons with hover expand and icons */}
         <div className="flex gap-2 md:flex-none">
           <button
-            className="group flex items-center bg-blue-600 text-white px-6 py-3 rounded-md font-medium shadow overflow-hidden relative transition-all duration-300 ease-in-out hover:px-8"
+            className="group flex items-center bg text-white px-6 py-3 rounded-md font-medium shadow overflow-hidden relative transition-all duration-300 ease-in-out hover:px-8"
             aria-label="Call Us"
             onClick={() => (window.location.href = "tel:+1234567890")}
           >
             <span>Call Us!</span>
-            <PhoneIcon className="w-5 h-5 ml-2 opacity-0 translate-x-[-10px] group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-in-out" />
-          </button>
-
-          <button
-            className="group flex items-center bg-yellow-400 text-black px-6 py-3 rounded-md font-medium shadow overflow-hidden relative transition-all duration-300 ease-in-out hover:px-8"
-            aria-label="Enquiry Now"
-            onClick={() => (window.location.href = "/enquiry")}
-          >
-            <span>Enquiry Now</span>
-            <ChatBubbleLeftRightIcon className="w-5 h-5 ml-2 text-black opacity-0 translate-x-[-10px] group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-in-out" />
+            <PhoneIcon className="w-5 h-5 ml-2" />
           </button>
         </div>
       </section>
@@ -556,7 +564,7 @@ const Hero = () => {
             Start Your Digital Growth Journey with Sharath Ravikumar
           </div>
           <button
-            className="relative overflow-hidden w-35 mt-4 border-2 border-white p-1 font-semibold text-gray-800 text-sm"
+            className="relative overflow-hidden w-35 mt-4 border-2 border-white p-1 font-semibold text-gray-800 text-sm rounded-lg"
             onMouseEnter={() => setRegHovered(true)}
             onMouseLeave={() => setRegHovered(false)}
           >

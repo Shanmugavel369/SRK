@@ -4,7 +4,7 @@ import { Route,Routes } from "react-router-dom";
 import Home from "./Pages/Home"
 import About from "./Pages/About"
 import Clients from "./Pages/Clients"
-import Blogs from "./Pages/Blogs"
+import BlogsListing from "./Pages/BlogsListing"
 import Consult from "./Pages/Consult"
 import Contact from "./Pages/Contact"
 
@@ -12,7 +12,7 @@ import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import StickyCTAForm from "./ReUse/StickyCTAForm";
 import ScrollToTop from "./ReUse/ScrollToTop";
-
+import ScrollTop from "./ReUse/ScrollTop";
 
 const App = () => {
 
@@ -21,11 +21,12 @@ const App = () => {
       {/* Global container to control width + margins */}
       <div className="max-w-screen-2xl mx-auto">
         <Header />
+        <ScrollTop/>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/clients" element={<Clients />} />
-          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/blogs" element={<BlogsListing />} />
           <Route path="/consult" element={<Consult />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>

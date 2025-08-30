@@ -1,80 +1,91 @@
-import React from "react";
-import {
-  FaFacebookF,
-  FaTwitter,
-  FaLinkedinIn,
-  FaPinterestP,
-  FaYoutube,
-} from "react-icons/fa";
-
+import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from "lucide-react";
+ 
 const Footer = () => {
   return (
-    <footer className="bg-[#007BFF] text-white pt-10 pb-5">
-      <div className="container mx-auto px-6">
-        {/* 3 Col Layout */}
-        <div className="flex flex-col md:flex-row md:items-start items-center justify-between">
-          {/* Left: Logo + Name */}
-          <div className="flex flex-col items-center md:items-start">
-            <img
-              src="/assets/SRK-logo-White.png"
-              alt="Logo"
-              className="h-40 w-60 object-contain"
-            />
-          </div>
-
-          {/* Center: Paragraph */}
-          <div className="md:w-2/4 text-center md:text-left text-lg mb-8 md:mb-0">
-            <p>
-              Sharath Ravikumar is the founder of Webboombaa.org, an
-              award-winning digital marketing agency based in Chennai.
-              Recognized as one of the leading voices in the digital marketing
-              space, he is a trusted consultant, accomplished author,
-              sought-after trainer, and impactful speaker. A true digital
-              strategist, Sharath blends innovation with insight to help brands
-              grow and stay ahead in the ever-evolving digital landscape.
+    <footer className="bg-[#001F3F] text-white">
+      <div className="container mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Company Info */}
+          <div className="space-y-4">
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-gradient-gold rounded-full flex items-center justify-center">
+                <span className="text-sm font-bold text-navy">GIS</span>
+              </div>
+              <span className="font-heading text-xl font-semibold">
+                Great Indian Sweets
+              </span>
+            </div>
+            <p className="text-white/80 leading-relaxed">
+              Bringing you authentic Indian sweets from traditional treasure kitchens since 1950. Quality, tradition, and taste in every bite.
             </p>
+            <div className="flex space-x-4">
+              <Facebook className="h-5 w-5 text-white/60 hover:text-gold cursor-pointer transition-colors" />
+              <Instagram className="h-5 w-5 text-white/60 hover:text-gold cursor-pointer transition-colors" />
+              <Twitter className="h-5 w-5 text-white/60 hover:text-gold cursor-pointer transition-colors" />
+            </div>
           </div>
-
-          {/* Right: Social Media */}
-          <div className="flex space-x-4">
-            {/* Use circular buttons */}
-            <a
-              href="https://twitter.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-gray-600 hover:bg-blue-400 text-white shadow-xl rounded-full w-9 h-9 flex items-center justify-center transition"
-            >
-              <FaTwitter size={18} />
-            </a>
-            <a
-              href="https://linkedin.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-gray-600 hover:bg-blue-700 text-white shadow-xl rounded-full w-9 h-9 flex items-center justify-center transition"
-            >
-              <FaLinkedinIn size={18} />
-            </a>
+ 
+          {/* Quick Links */}
+          <div>
+            <h3 className="font-heading text-lg font-semibold mb-4">Quick Links</h3>
+            <ul className="space-y-2">
+              <li><a href="#" className="text-white/80 hover:text-gold transition-colors">Home</a></li>
+              <li><a href="#" className="text-white/80 hover:text-gold transition-colors">Sweets Collection</a></li>
+              <li><a href="#" className="text-white/80 hover:text-gold transition-colors">Celebration Baskets</a></li>
+              <li><a href="#" className="text-white/80 hover:text-gold transition-colors">Bulk Orders</a></li>
+              <li><a href="#" className="text-white/80 hover:text-gold transition-colors">About Us</a></li>
+            </ul>
+          </div>
+ 
+          {/* Customer Service */}
+          <div>
+            <h3 className="font-heading text-lg font-semibold mb-4">Customer Service</h3>
+            <ul className="space-y-2">
+              <li><a href="#" className="text-white/80 hover:text-gold transition-colors">Track Your Order</a></li>
+              <li><a href="#" className="text-white/80 hover:text-gold transition-colors">Shipping Info</a></li>
+              <li><a href="#" className="text-white/80 hover:text-gold transition-colors">Returns</a></li>
+              <li><a href="#" className="text-white/80 hover:text-gold transition-colors">FAQ</a></li>
+              <li><a href="#" className="text-white/80 hover:text-gold transition-colors">Contact Support</a></li>
+            </ul>
+          </div>
+ 
+          {/* Contact Info */}
+          <div>
+            <h3 className="font-heading text-lg font-semibold mb-4">Get in Touch</h3>
+            <div className="space-y-3">
+              <div className="flex items-center space-x-3">
+                <Phone className="h-5 w-5 text-gold" />
+                <span className="text-white/80">+91 98765 43210</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <Mail className="h-5 w-5 text-gold" />
+                <span className="text-white/80">hello@greatindiansweets.com</span>
+              </div>
+              <div className="flex items-start space-x-3">
+                <MapPin className="h-5 w-5 text-gold mt-1 flex-shrink-0" />
+                <span className="text-white/80">
+                  Traditional Sweet Shop<br />
+                  Chennai, Tamil Nadu 600001
+                </span>
+              </div>
+            </div>
           </div>
         </div>
-
-        {/* Bottom Details */}
-        <div className="flex flex-col md:flex-row md:justify-between items-center mt-8 pt-5 border-t border-white border-opacity-10 text-xs text-gray-300">
-          <div>
-            &copy; {new Date().getFullYear()} Copyright - 2025 by Sharath
-            Ravikumar
-          </div>
-          <div className="space-x-4 mt-2 md:mt-0">
-            <a href="#" className="hover:text-white transition">
-              Privacy Policy
-            </a>
-            <a href="#" className="hover:text-white transition">
-              Sitemap
-            </a>
+ 
+        {/* Bottom Section */}
+        <div className="border-t border-white/20 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-white/60 text-sm">
+            © 2024 Great Indian Sweets. All rights reserved.
+          </p>
+          <div className="flex space-x-6 mt-4 md:mt-0">
+            <a href="#" className="text-white/60 hover:text-gold text-sm transition-colors">Privacy Policy</a>
+            <a href="#" className="text-white/60 hover:text-gold text-sm transition-colors">Terms of Service</a>
+            <a href="#" className="text-white/60 hover:text-gold text-sm transition-colors">Cookie Policy</a>
           </div>
         </div>
       </div>
     </footer>
   );
 };
-
+ 
 export default Footer;

@@ -53,7 +53,7 @@ const Header = () => {
         />
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex space-x-8 text-lg font-semibold text-gray-900">
+        <nav className="hidden md:flex space-x-8 text-lg text-gray-900">
           <Link to="/" className="text-black hover:text-blue-600 mr-8">
             Home
           </Link>
@@ -133,7 +133,7 @@ const Header = () => {
         <div className="hidden md:block">
           <button
             onClick={() => navigate("/contact")}
-            className="btn-cta-yellow hover:bg-yellow-500 text-black px-4 py-2 rounded font-semibold"
+            className="bg text-black px-4 py-2 rounded-lg font-semibold"
           >
             Contact
           </button>
@@ -150,7 +150,7 @@ const Header = () => {
             transition={{ duration: 0.3 }}
             className="md:hidden bg-white shadow-lg overflow-hidden"
           >
-            <ul className="flex flex-col px-6 py-4 space-y-4 text-gray-900 font-semibold">
+            <ul className="flex flex-col px-6 py-4 space-y-4 text-black">
               <li>
                 <Link
                   to="/"

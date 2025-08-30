@@ -18,13 +18,13 @@ const BlogSection = () => {
             amet consectetur adipisicing elit.
           </p>
           <button
-              className="relative overflow-hidden w-24 border-2 border-gray-200 p-2 font-semibold text-gray-800 text-xs"
+              className="relative overflow-hidden w-24 border-2 border-gray-200 p-2 font-semibold text-gray-800 text-xs rounded-lg"
               onMouseEnter={() => setHovered(true)}
               onMouseLeave={() => setHovered(false)}
             >
               {/* Sliding yellow background */}
               <span
-                className={`absolute inset-0 bg-yellow-400 transition-transform duration-300 
+                className={`absolute inset-0 bg transition-transform duration-300 
           ${Hovered ? "translate-x-0" : "-translate-x-full"} z-0`}
                 style={{ pointerEvents: "none" }}
               />
