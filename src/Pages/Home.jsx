@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay, Controller, EffectFade } from "swiper/modules";
-import { PhoneIcon, ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
+import { PhoneIcon } from "@heroicons/react/24/solid";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";
@@ -22,7 +22,6 @@ import {
 
 import { MdOutlineCastForEducation } from "react-icons/md";
 import { GiPublicSpeaker } from "react-icons/gi";
-
 import BlogSection from "../ReUse/BlogSection";
 import Achievements from "../ReUse/Achievements";
 import Brands from "../ReUse/Brand";
@@ -38,6 +37,10 @@ const Hero = () => {
   const isInView = useInView(sectionRef, { once: true }); // Trigger once
   const imageControls = useAnimation();
   const textControls = useAnimation();
+
+  const handleRegister = () =>{
+    navigate("/contact");
+  }
 
   // When the section enters view, start animations
   if (isInView) {
@@ -152,7 +155,7 @@ const Hero = () => {
     <div className="relative">
       {/* Hero Section */}
       <section
-        className="relative h-[750px] flex items-center"
+        className="relative h-[400px] mt-24 md:mt-0 md:h-[750px] flex items-center"
         //       style={{
         //         background: `
         //   linear-gradient(
@@ -187,7 +190,7 @@ const Hero = () => {
             <button className="bg text-black font-semibold px-6 py-3 md:mb-0 mb-2 rounded-lg">
               Explore My Work
             </button>
-            <button className="bg-yellow-400 ml-2 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg">
+            <button className="bg-yellow-400 mr-4 md:ml-2 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg">
               Book an Appointment
             </button>
           </div>
@@ -439,88 +442,97 @@ const Hero = () => {
 
       {/* Swiper Section */}
       <section className="flex flex-col justify-center px-6 py-4 relative overflow-visible">
-        <div className="grid grid-cols-1 md:grid-cols-[40%_60%] items-center relative z-10 min-h-[500px] gap-x-0 overflow-visible">
-          {/* Left Column - Content Card */}
-          <div className="absolute top-0 left-30 relative z-20 max-w-lg h-[350px] shadow-lg">
-            <Swiper
-              style={{ willChange: "transform, opacity" }}
-              modules={[Navigation, Autoplay, Controller, EffectFade]}
-              effect="fade"
-              fadeEffect={{ crossFade: true }}
-              onSwiper={setTextSwiper}
-              controller={{ control: imageSwiper }}
-              navigation={{
-                nextEl: ".custom-next",
-                prevEl: ".custom-prev",
-              }}
-              autoplay={{ delay: 5000, disableOnInteraction: false }}
-              speed={900}
-              slidesPerView={1}
-              loop={true}
-              watchOverflow={true}
-              className="bg-white p-8 w-full h-full"
-              onSlideChange={handleSlideChange}
-            >
-              {slides.map((item, idx) => (
-                <SwiperSlide key={idx}>
-                  <div
-                    className={`h-full flex flex-col p-8 ${getAnimationClasses(
-                      idx
-                    )}`}
-                  >
-                    <p className="text-red-600 font-semibold text-sm">
-                      {item.date}
-                    </p>
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mt-2">
-                      {item.title}
-                    </h2>
-                    <p className="mt-4 text-gray-600 text-lg">{item.desc}</p>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+  <div className="grid grid-cols-1 md:grid-cols-[40%_60%] items-center relative z-10 min-h-[500px] gap-x-0 overflow-visible">
 
-            {/* Move buttons OUTSIDE swiper wrapper */}
-            <div className="flex gap-4 mt-4">
-              <button className="border border-blue-600 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-50 custom-prev">
-                &lt;
-              </button>
-              <button className="border border-blue-600 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-50 custom-next">
-                &gt;
-              </button>
+    {/* Right Column - Image (move visually above on mobile) */}
+    <div className="relative h-[200px] md:h-[600px] md:right-[120px] w-full overflow-hidden order-1 md:order-2">
+      <Swiper
+        style={{ willChange: "transform, opacity" }}
+        modules={[Controller, EffectFade]}
+        effect="fade"
+        fadeEffect={{ crossFade: true }}
+        onSwiper={setImageSwiper}
+        controller={{ control: textSwiper }}
+        autoplay={{ delay: 4000, disableOnInteraction: true }}
+        allowTouchMove={false}
+        speed={500}
+        slidesPerView={1}
+        loop={true}
+        className="h-full"
+      >
+        {slides.map((item, idx) => (
+          <SwiperSlide key={idx}>
+            <img
+              src={item.img}
+              alt={`Slide ${idx}`}
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+
+      {/* Prev/Next buttons overlayed on image (only on mobile) */}
+<div className="absolute inset-0 flex items-center justify-between px-4 z-30 md:hidden pointer-events-none">
+  <button className="border border-white text-white bg-blue-700/40 px-3 py-2 rounded-lg custom-prev pointer-events-auto">
+    &lt;
+  </button>
+  <button className="border border-white text-white bg-blue-700/40 px-3 py-2 rounded-lg custom-next pointer-events-auto">
+    &gt;
+  </button>
+</div>
+
+    </div>
+
+    {/* Left Column - Content Card */}
+    <div className="relative md:left-[120px] z-20 max-w-lg h-[350px] shadow-lg order-2 md:order-1 mt-4 md:mt-0">
+      <Swiper
+        style={{ willChange: "transform, opacity" }}
+        modules={[Navigation, Autoplay, Controller, EffectFade]}
+        effect="fade"
+        fadeEffect={{ crossFade: true }}
+        onSwiper={setTextSwiper}
+        controller={{ control: imageSwiper }}
+        navigation={{
+          nextEl: ".custom-next",
+          prevEl: ".custom-prev",
+        }}
+        autoplay={{ delay: 5000, disableOnInteraction: false }}
+        speed={900}
+        slidesPerView={1}
+        loop={true}
+        watchOverflow={true}
+        className="bg-white p-8 w-full h-full"
+        onSlideChange={handleSlideChange}
+      >
+        {slides.map((item, idx) => (
+          <SwiperSlide key={idx}>
+            <div
+              className={`h-full flex flex-col p-8 ${getAnimationClasses(idx)}`}
+            >
+              <p className="text-red-600 font-semibold text-sm">{item.date}</p>
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mt-2">
+                {item.title}
+              </h2>
+              <p className="mt-4 text-gray-600 text-lg">{item.desc}</p>
             </div>
-          </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
 
-          {/* Right Column - Image */}
-          <div className="relative h-[400px] md:h-[600px] w-full overflow-hidden -ml-26">
-            <Swiper
-              style={{ willChange: "transform, opacity" }}
-              modules={[Controller, EffectFade]}
-              effect="fade"
-              fadeEffect={{ crossFade: true }}
-              onSwiper={setImageSwiper}
-              controller={{ control: textSwiper }}
-              autoplay={{ delay: 4000, disableOnInteraction: true }}
-              allowTouchMove={false}
-              speed={500}
-              slidesPerView={1}
-              loop={true}
-              className="h-full"
-            >
-              {slides.map((item, idx) => (
-                <SwiperSlide key={idx}>
-                  <img
-                    src={item.img}
-                    alt={`Slide ${idx}`}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        </div>
-      </section>
+      {/* Desktop buttons (stay outside swiper) */}
+      <div className="hidden md:flex gap-4 mt-4">
+        <button className="border border-blue-600 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-50 custom-prev">
+          &lt;
+        </button>
+        <button className="border border-blue-600 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-50 custom-next">
+          &gt;
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
 
       <section className="w-full bg-white py-12 px-6 md:px-20 flex flex-col md:flex-row items-center justify-between max-w-5xl mx-auto">
         {/* Left side content */}
@@ -556,15 +568,16 @@ const Hero = () => {
         <div className="flex-1 flex items-center h-full pl-16 z-10"></div>
 
         {/* Right column: title and info */}
-        <div className="flex-1 flex flex-col justify-center h-full pr-16 z-10 absolute left-100">
-          <h3 className="text-white text-4xl font-extrabold mb-3">
+        <div className="flex-1 flex flex-col justify-center h-full pr-16 z-10 absolute left-2 md:left-100">
+          <h3 className="text-white text-2xl md:text-4xl font-extrabold mb-3">
             Get Started Now
           </h3>
-          <div className="text-white text-lg mb-2">
+          <div className="text-white text-sm/6 md:text-lg mb-2">
             Start Your Digital Growth Journey with Sharath Ravikumar
           </div>
           <button
-            className="relative overflow-hidden w-35 mt-4 border-2 border-white p-1 font-semibold text-gray-800 text-sm rounded-lg"
+          onClick={handleRegister}
+            className="relative overflow-hidden w-30 md:w-35 mt-4 border-2 border-white p-1 font-semibold text-gray-800 text-sm rounded-sm"
             onMouseEnter={() => setRegHovered(true)}
             onMouseLeave={() => setRegHovered(false)}
           >
@@ -576,7 +589,7 @@ const Hero = () => {
             />
             {/* Button content */}
             <span
-              className={`relative z-10 flex items-center justify-center text-lg ${
+              className={`relative z-10 flex items-center justify-center text-sm ${
                 regHovered ? "text-white" : "text-white"
               } transition-colors duration-300`}
             >
@@ -589,7 +602,7 @@ const Hero = () => {
         <img
           src="https://sharathravikumar.com/wp-content/uploads/2024/12/sharath.png"
           alt=""
-          className="absolute right-50 -translate-x-1/2 bottom-0 h-64 object-contain z-20"
+          className="absolute -right-37 md:right-50 -translate-x-1/2 bottom-0 h-64 object-contain z-20"
           draggable="false"
           style={{ pointerEvents: "none" }}
         />

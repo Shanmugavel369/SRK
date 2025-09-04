@@ -1,10 +1,11 @@
+import { Link } from "react-router-dom";
 import DateWithIcon from "./DateIcon";
 
 export default function BlogCard({ blog }) {
   return (
-    <div className="border rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 flex flex-col">
+    <div className="overflow-hidden hover:shadow-lg transition duration-300 flex flex-col">
       {/* Top Half: Image with Category Tag */}
-      <div className="relative h-48 overflow-hidden rounded-t-2xl">
+      <div className="relative h-48 overflow-hidden">
         <img
           src={blog.img}
           alt={blog.title}
@@ -18,11 +19,14 @@ export default function BlogCard({ blog }) {
 
       {/* Bottom Half: Content */}
       <div className="p-4 flex flex-col flex-grow">
-        <h3 className="text-xl font-bold mb-2 flex-grow">{blog.title}</h3>
+        <h3 className="text-xl font-bold mb-2 pl-3 border-l-4 h-12 mb-4 border-blue-800 flex-grow">{blog.title}</h3>
         <p className="text-gray-600 text-sm mb-3 flex-grow">{blog.desc}</p>
         <div className="flex items-center justify-between mt-auto">
           <DateWithIcon date={blog.date} />
-          <button className="text-blue-800 text-sm font-semibold hover:underline hover:text-blue-900 transition duration-300 flex items-center gap-1">
+          <Link
+            to={`/blogs/${blog.id}`}
+            className="text-blue-800 text-sm font-semibold hover:underline hover:text-yellow-400 transition duration-300 flex items-center gap-1"
+          >
             Read More
             {/* Straight right arrow SVG */}
             <svg
@@ -39,7 +43,7 @@ export default function BlogCard({ blog }) {
                 d="M5 12h14m0 0l-4-4m4 4l-4 4"
               />
             </svg>
-          </button>
+          </Link>
         </div>
       </div>
     </div>

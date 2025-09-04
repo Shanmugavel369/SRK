@@ -53,7 +53,7 @@ export default function InviteSection() {
             onClick={() => setOpenForm(true)}
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-yellow-400 text-gray-800 px-8 py-3 rounded-lg font-semibold shadow-md"
+            className="bg-yellow-400 text-gray-800 px-8 py-3 rounded-lg mb-2 md:mb-0 font-semibold shadow-md"
           >
             Invite Sharath Ravikumar
           </motion.button>

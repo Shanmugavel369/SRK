@@ -14,7 +14,7 @@ export default function StickyCTAForm() {
       <div className="fixed right-0 top-1/2 transform -translate-y-1/2 z-50">
         <button
           onClick={() => setOpenForm(true)}
-          className="bg-yellow-400 text-gray-800 w-16 h-16 rounded-lg flex flex-col items-center justify-center font-semibold shadow-lg hover:bg-yellow-500 transition-transform hover:scale-110"
+          className="bg-yellow-400 text-gray-800 w-12 md:w-16 h-16 rounded-lg flex flex-col items-center justify-center font-semibold shadow-lg hover:bg-yellow-500 transition-transform hover:scale-110"
         >
           <FiSend className="text-2xl mb-1" />
           <span className="text-xs">Ask Me</span>

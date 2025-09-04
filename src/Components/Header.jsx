@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [brandsDropdownOpen, setBrandsDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -20,18 +21,19 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const bgClass = scrolled ? "bg-white shadow-sm" : "bg-transparent";
-  const textClass = "text-gray-900";
-
   const dropdownVariants = {
     hidden: { opacity: 0, y: -10, transition: { duration: 0.2 } },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.3, staggerChildren: 0.1, when: "beforeChildren" } },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.3, staggerChildren: 0.1, when: "beforeChildren" },
+    },
   };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 10 },
     visible: { opacity: 1, y: 0 },
-    hover: { scale: 1.05, color: "#050505ff" }, // Tailwind yellow-400 color
+    hover: { scale: 1.05, color: "#050505ff" },
   };
 
   return (
@@ -41,16 +43,20 @@ const Header = () => {
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -100, opacity: 0 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
-      className={`fixed top-0 left-0 w-full z-50 transition-colors duration-500 ease-in-out ${bgClass} ${textClass}`}
+      className={`fixed top-0 left-0 w-full z-50 transition-colors duration-500 ease-in-out ${
+        scrolled ? "bg-white shadow-sm" : "bg-transparent"
+      } text-gray-900`}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
         {/* Left Logo */}
+        <Link to="/">
         <img
           src="/assets/SRK-logo.png"
           alt="SRK Logo"
           className="h-16 w-auto object-contain cursor-pointer"
           draggable={false}
         />
+        </Link>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex space-x-8 text-lg text-gray-900">
@@ -58,12 +64,15 @@ const Header = () => {
             Home
           </Link>
 
+          {/* About Dropdown */}
           <div
             className="relative group"
             onMouseEnter={() => setDropdownOpen(true)}
             onMouseLeave={() => setDropdownOpen(false)}
           >
-            <button className="text-black hover:text-blue-600 transition-colors">About</button>
+            <Link to="/about" className="text-black hover:text-blue-600 transition-colors">
+              About
+            </Link>
 
             <AnimatePresence>
               {dropdownOpen && (
@@ -81,7 +90,7 @@ const Header = () => {
                       whileHover="hover"
                       className="cursor-pointer p-2 rounded"
                     >
-                      <Link to="/About-Us" className="block hover:text-blue-600 transition-colors">
+                      <Link to="/about" className="block hover:text-blue-600 transition-colors">
                         Who We Are
                       </Link>
                     </motion.li>
@@ -104,9 +113,89 @@ const Header = () => {
           <Link to="/consult" className="text-black hover:text-blue-600">
             Consult Sharath
           </Link>
-          <Link to="/brands" className="text-black hover:text-blue-600">
-            Brands
-          </Link>
+
+          {/* Brands Dropdown */}
+          <div
+            className="relative group"
+            onMouseEnter={() => setBrandsDropdownOpen(true)}
+            onMouseLeave={() => setBrandsDropdownOpen(false)}
+          >
+            <span className="cursor-pointer text-black hover:text-blue-600 transition-colors select-none">
+              Brands
+            </span>
+
+            <AnimatePresence>
+              {brandsDropdownOpen && (
+                <motion.div
+                  className="absolute left-0 mt-2 w-48 bg-white rounded shadow-lg origin-top"
+                  initial="hidden"
+                  animate="visible"
+                  exit="hidden"
+                  variants={dropdownVariants}
+                >
+                  <motion.ul className="flex flex-col text-sm p-2 space-y-2 text-gray-900">
+                    <motion.li
+                      variants={itemVariants}
+                      whileHover="hover"
+                      className="cursor-pointer p-2 rounded"
+                    >
+                      <a
+                        href="https://webboombaa.org"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block hover:text-blue-600"
+                      >
+                        Webboombaa
+                      </a>
+                    </motion.li>
+                    <motion.li
+                      variants={itemVariants}
+                      whileHover="hover"
+                      className="cursor-pointer p-2 rounded"
+                    >
+                      <a
+                        href="https://www.brandandmediaworks.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block hover:text-blue-600"
+                      >
+                        Brand and Media Works
+                      </a>
+                    </motion.li>
+                    <motion.li
+                      variants={itemVariants}
+                      whileHover="hover"
+                      className="cursor-pointer p-2 rounded"
+                    >
+                      <a
+                        href="https://www.greatindiansweets.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block hover:text-blue-600"
+                      >
+                        Great Indian Sweets
+                      </a>
+                    </motion.li>
+                    <motion.li
+                      variants={itemVariants}
+                      whileHover="hover"
+                      className="cursor-pointer p-2 rounded"
+                    >
+                      <a
+                        href="https://greatindianbeverages.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block hover:text-blue-600"
+                      >
+                        Great Indian Beverages
+                      </a>
+                    </motion.li>
+                  </motion.ul>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
           <Link to="/blogs" className="text-black hover:text-blue-600 -ml-2">
             Blogs
           </Link>
@@ -119,11 +208,11 @@ const Header = () => {
           aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
         >
           {mobileMenuOpen ? (
-            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" >
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           ) : (
-            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" >
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8h16M4 16h16" />
             </svg>
           )}
@@ -152,11 +241,7 @@ const Header = () => {
           >
             <ul className="flex flex-col px-6 py-4 space-y-4 text-black">
               <li>
-                <Link
-                  to="/"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block text-blue-600 hover:text-yellow-600"
-                >
+                <Link to="/" onClick={() => setMobileMenuOpen(false)} className="block text-blue-600 hover:text-yellow-600">
                   Home
                 </Link>
               </li>
@@ -189,7 +274,7 @@ const Header = () => {
                     >
                       <li>
                         <Link
-                          to="/About-Us"
+                          to="/about"
                           onClick={() => {
                             setDropdownOpen(false);
                             setMobileMenuOpen(false);
@@ -216,30 +301,85 @@ const Header = () => {
                 </AnimatePresence>
               </li>
 
+              {/* Brands dropdown mobile */}
               <li>
-                <Link
-                  to="/consult"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block text-blue-600 hover:text-yellow-600"
+                <button
+                  onClick={() => setBrandsDropdownOpen(!brandsDropdownOpen)}
+                  className="w-full flex justify-between items-center text-blue-600 hover:text-yellow-600 font-semibold focus:outline-none"
                 >
+                  Brands
+                  <svg
+                    className={`w-5 h-5 transform transition-transform duration-300 ${
+                      brandsDropdownOpen ? "rotate-180" : "rotate-0"
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                <AnimatePresence>
+                  {brandsDropdownOpen && (
+                    <motion.ul
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="pl-4 mt-2 flex flex-col space-y-2 text-sm"
+                    >
+                      <li>
+                        <a
+                          href="https://webboombaa.org"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block hover:text-yellow-600"
+                        >
+                          Webboombaa
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://www.brandandmediaworks.com"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block hover:text-yellow-600"
+                        >
+                          Brand and Media Works
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://www.greatindiansweets.com/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block hover:text-yellow-600"
+                        >
+                          Gread Indian Sweets
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://greatindianbeverages.com/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block hover:text-yellow-600"
+                        >
+                          Great Indian Beverages
+                        </a>
+                      </li>
+                    </motion.ul>
+                  )}
+                </AnimatePresence>
+              </li>
+
+              <li>
+                <Link to="/consult" onClick={() => setMobileMenuOpen(false)} className="block text-blue-600 hover:text-yellow-600">
                   Consult Sharath
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/brands"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block text-blue-600 hover:text-yellow-600"
-                >
-                  Brands
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/blogs"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block text-blue-600 hover:text-yellow-600"
-                >
+                <Link to="/blogs" onClick={() => setMobileMenuOpen(false)} className="block text-blue-600 hover:text-yellow-600 -ml-2">
                   Blogs
                 </Link>
               </li>
