@@ -5,8 +5,9 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay, Controller, EffectFade } from "swiper/modules";
+import { Navigation, Autoplay, Controller, EffectFade,Pagination  } from "swiper/modules";
 import { PhoneIcon } from "@heroicons/react/24/solid";
+import "swiper/css/pagination";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";
@@ -42,6 +43,11 @@ const Hero = () => {
     navigate("/contact");
   }
 
+  const handleExplore = () =>{
+    navigate("/about");
+  }
+
+
   // When the section enters view, start animations
   if (isInView) {
     imageControls.start({ opacity: 1, x: 0 });
@@ -49,22 +55,39 @@ const Hero = () => {
   }
 
   useEffect(() => {
-    const animation = gsap.to(overlayRef.current, {
-      y: "100vh", // slide down by one viewport height
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: overlayRef.current,
-        start: "top center", // trigger when the top of overlay reaches center of viewport
-        end: "+=100%", // animate over the next 100% scroll
-        scrub: true, // link animation with scrollbar
-      },
-    });
+  let animation;
 
-    return () => {
+  (async () => {
+    const gsapModule = await import("gsap");
+    const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+
+    const gsap = gsapModule.default;
+    gsap.registerPlugin(ScrollTrigger);
+
+    if (overlayRef.current) {
+      animation = gsap.to(overlayRef.current, {
+        y: "100vh",
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: overlayRef.current,
+          start: "top center",
+          end: "+=100%",
+          scrub: true,
+        },
+      });
+    }
+  })();
+
+  return () => {
+    if (animation?.scrollTrigger) {
       animation.scrollTrigger.kill();
-      animation.kill();
-    };
-  }, []);
+    }
+    animation?.kill();
+  };
+}, []);
+
+
+
   const [hovered, setHovered] = useState(false);
   const [textSwiper, setTextSwiper] = useState(null);
   const [imageSwiper, setImageSwiper] = useState(null);
@@ -113,60 +136,78 @@ const Hero = () => {
     return "opacity-0 translate-y-6 pointer-events-none"; // Hide inactive slides
   };
 
-  const words = ["business", "growth", "mindset"];
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [displayedText, setDisplayedText] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  // Inject styles globally with a library like Emotion or styled-components
-
-  useEffect(() => {
-    const typingSpeed = 150; // speed for typing each letter
-    const deletingSpeed = 100; // speed for deleting each letter
-    const pauseTime = 1000; // pause after word is complete
-
-    const currentWord = words[currentWordIndex];
-
-    let timeout;
-
-    if (!isDeleting && displayedText.length < currentWord.length) {
-      // Typing
-      timeout = setTimeout(() => {
-        setDisplayedText(currentWord.slice(0, displayedText.length + 1));
-      }, typingSpeed);
-    } else if (!isDeleting && displayedText.length === currentWord.length) {
-      // Pause before deleting
-      timeout = setTimeout(() => setIsDeleting(true), pauseTime);
-    } else if (isDeleting && displayedText.length > 0) {
-      // Deleting
-      timeout = setTimeout(() => {
-        setDisplayedText(currentWord.slice(0, displayedText.length - 1));
-      }, deletingSpeed);
-    } else if (isDeleting && displayedText.length === 0) {
-      // Move to next word
-      setIsDeleting(false);
-      setCurrentWordIndex((prev) => (prev + 1) % words.length);
-    }
-
-    return () => clearTimeout(timeout);
-  }, [displayedText, isDeleting, currentWordIndex]);
-
   return (
     <div className="relative">
       {/* Hero Section */}
-      <section
+      <Swiper
+      modules={[Autoplay, Pagination,EffectFade]}
+      effect="fade"
+      fadeEffect={{ crossFade: true }}
+      autoplay={{ delay: 3000, disableOnInteraction: false }}
+      pagination={{ clickable: true }}
+      loop={true}
+      className="w-full h-[750px] relative"
+      style={{ paddingBottom: "60px" }} // leave space for dots
+    >
+      {/* Slide 1: Original Hero Section Content */}
+      <SwiperSlide>
+        <section
         className="relative h-[400px] mt-24 md:mt-0 md:h-[750px] flex items-center"
-        //       style={{
-        //         background: `
-        //   linear-gradient(
-        //     131deg,
-        //     #ffffff 0%,
-        //     #ffffff 40%,
-        //     #4896e9ff 65%,   /* lighter blue */
-        //     #013685ff 100%   /* darker blue */
-        //   ) fixed
-        // `,
-        //       }}
+      >
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center px-6 py-12 relative z-10">
+          {/* Left content (was right content) */}
+          <div className="md:w-1/2 text-gray-900 order-last md:order-first z-20">
+            <div className="inline-block">
+              <h1 className="text-xl md:text-6xl font-bold text-start">
+                India's Leading
+                <br />
+                <span className="text-yellow-400">Digital Marketing</span>
+                <br />
+                Consultant & Educator
+              </h1>
+            </div>
+            <p className="text-lg mb-6 mt-10">
+              Sharath Ravikumar is a Digital Marketing Consultant, Agency
+              Founder,
+              <br /> and Speaker with over 10 years of experience. He has helped
+              businesses strengthen their digital presence, scale effectively,
+              and achieve lasting growth.
+            </p>
+            <button onClick={handleExplore} className="bg text-black font-semibold px-6 py-3 md:mb-0 mb-2 rounded-lg">
+              Explore My Work
+            </button>
+            <button onClick={handleRegister} className="bg-yellow-400 mr-4 md:ml-2 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg">
+              Book an Appointment
+            </button>
+          </div>
+
+          {/* Right image (was left image) */}
+          <div className="md:w-1/2 mt-10 md:mt-0 relative hidden md:block">
+            <img
+              src="https://sharathravikumar.com/wp-content/uploads/2024/12/sharath.png"
+              alt="Hero"
+              className="max-w-2xl h-[600px] absolute z-20 -top-58 right-0"
+            />
+          </div>
+        </div>
+      </section>
+      </SwiperSlide>
+
+      {/* Slide 2: Just an Image */}
+      <SwiperSlide>
+        <div className="flex justify-center items-center h-full">
+          <img
+            src="https://www.slidecow.com/wp-content/uploads/2018/09/Client-Logos-The-Right-Way.jpg"
+            alt="Slide image"
+            className="max-w-3xl h-[600px] object-contain"
+          />
+        </div>
+      </SwiperSlide>
+
+      {/* Slide 3: Two-column Layout */}
+      <SwiperSlide>
+        <section
+        className="relative h-[400px] mt-24 md:mt-0 md:h-[750px] flex items-center"
       >
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center px-6 py-12 relative z-10">
           {/* Left content (was right content) */}
@@ -205,6 +246,8 @@ const Hero = () => {
           </div>
         </div>
       </section>
+      </SwiperSlide>
+    </Swiper>
 
       {/* Next Sections */}
       <section
@@ -246,7 +289,7 @@ const Hero = () => {
               businesses, and transforming digital potential
             </p>
             <button
-              onClick={() => navigate("/contact-us")}
+              onClick={() => navigate("/contact")}
               onMouseEnter={() => setHovered(true)}
               onMouseLeave={() => setHovered(false)}
               className={`relative overflow-hidden px-8 py-1 h-20 rounded-lg border-2 font-semibold transition-colors duration-300 border-yellow-400 ${
@@ -303,6 +346,7 @@ const Hero = () => {
             <h2 className="text-3xl md:text-4xl font-bold">About Sharath</h2>
 
             <button
+              onClick={handleExplore}
               className="relative overflow-hidden border-2 border-yellow-400 px-2 py-2 font-semibold text-yellow-400 text-xs rounded-lg"
               onMouseEnter={() => setReadHovered(true)}
               onMouseLeave={() => setReadHovered(false)}

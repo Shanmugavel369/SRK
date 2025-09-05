@@ -56,39 +56,48 @@ const Timeline = () => {
   const visibleRef = useRef([]); // Boolean state per item
 
   useLayoutEffect(() => {
-    let ctx = gsap.context(() => {
+  let ctx;
+  let gsapRef, ScrollTriggerRef;
+
+  (async () => {
+    const gsapModule = await import("gsap");
+    const ScrollTriggerModule = await import("gsap/ScrollTrigger");
+    gsapRef = gsapModule.default;
+    ScrollTriggerRef = ScrollTriggerModule.ScrollTrigger;
+    gsapRef.registerPlugin(ScrollTriggerRef);
+
+    ctx = gsapRef.context(() => {
       const container = containerRef.current;
       const lineEl = lineRef.current;
       const items = itemsRef.current;
       const contents = contentRefs.current;
+      const arrowEl = container?.querySelector("#lineArrow");
 
       if (!container || !lineEl || items.length === 0) return;
 
       // Ensure arrays have proper length
       visibleRef.current = items.map(() => false);
 
-      // Initial states (fast + GPU friendly)
-      gsap.set(items, {
+      // Initial states
+      gsapRef.set(items, {
         autoAlpha: 0,
         x: -X_OFFSET,
         willChange: "transform,opacity",
       });
-      gsap.set(contents, {
+      gsapRef.set(contents, {
         autoAlpha: 0,
         x: X_OFFSET,
         willChange: "transform,opacity",
       });
 
-      // Helper: midpoint of an item relative to container
+      // Helpers
       const itemTop = (el) => el.offsetTop;
-
-      // Helper: last midpoint for total line travel
       const lastMid = () =>
         itemTop(items[items.length - 1]) +
         items[items.length - 1].offsetHeight +
         50;
 
-      // Reveal/hide per item using hysteresis + stateful toggles
+      // Reveal/hide logic
       const updateVisibility = (currentHeight) => {
         items.forEach((item, idx) => {
           const content = contents[idx];
@@ -97,36 +106,33 @@ const Timeline = () => {
           const top = itemTop(item);
           const isVisible = visibleRef.current[idx];
 
-          // Reveal if line clearly passed center + hysteresis
           if (!isVisible && currentHeight >= top + HYSTERESIS) {
             visibleRef.current[idx] = true;
-            gsap.to(item, {
+            gsapRef.to(item, {
               autoAlpha: 1,
               x: 0,
               duration: DUR_IN,
               ease: "power2.out",
               overwrite: "auto",
             });
-            gsap.to(content, {
+            gsapRef.to(content, {
               autoAlpha: 1,
               x: 0,
               duration: DUR_IN,
               ease: "power2.out",
               overwrite: "auto",
-              delay: 0.05, // tiny lead-lag for polish
+              delay: 0.05,
             });
-          }
-          // Hide if line clearly before center - hysteresis
-          else if (isVisible && currentHeight < top - HYSTERESIS) {
+          } else if (isVisible && currentHeight < top - HYSTERESIS) {
             visibleRef.current[idx] = false;
-            gsap.to(item, {
+            gsapRef.to(item, {
               autoAlpha: 0,
               x: -X_OFFSET,
               duration: DUR_OUT,
               ease: "power2.in",
               overwrite: "auto",
             });
-            gsap.to(content, {
+            gsapRef.to(content, {
               autoAlpha: 0,
               x: X_OFFSET,
               duration: DUR_OUT,
@@ -137,36 +143,8 @@ const Timeline = () => {
         });
       };
 
-      // Progressive line growth scrubbed to scroll
-      gsap.fromTo(
-        lineEl,
-        { height: 0 },
-        {
-          height: lastMid, // function (recomputed on refresh)
-          ease: "none",
-          scrollTrigger: {
-            trigger: container,
-            start: "top top+=300",
-            end: () => `+=${lastMid()}`, // simpler consistent end
-            scrub: true,
-            invalidateOnRefresh: true,
-            onUpdate: () => {
-              const h =
-                lineEl.offsetHeight || parseFloat(lineEl.style.height) || 0;
-              updateVisibility(h);
-            },
-            onRefresh: () => {
-              // Re-evaluate positions on resize/content changes
-              const h = lineEl.offsetHeight || 0;
-              updateVisibility(h);
-            },
-          },
-        }
-      );
-
-      const arrowEl = container.querySelector("#lineArrow");
-
-      gsap.fromTo(
+      // ✅ Single ScrollTrigger for line + arrow
+      gsapRef.fromTo(
         lineEl,
         { height: 0 },
         {
@@ -178,23 +156,31 @@ const Timeline = () => {
             end: () => `+=${lastMid()}`,
             scrub: true,
             invalidateOnRefresh: true,
-            onUpdate: () => {
-              const h =
-                lineEl.offsetHeight || parseFloat(lineEl.style.height) || 0;
+            onUpdate: (self) => {
+              const h = self.progress * lastMid();
               updateVisibility(h);
 
-              // Move arrow to bottom of growing line
               if (arrowEl) {
-                gsap.set(arrowEl, { y: h - 12 }); // offset ~half arrow height
+                gsapRef.set(arrowEl, { y: h - 12 });
+              }
+            },
+            onRefresh: () => {
+              const h = lineEl.offsetHeight || 0;
+              updateVisibility(h);
+              if (arrowEl) {
+                gsapRef.set(arrowEl, { y: h - 12 });
               }
             },
           },
         }
       );
     }, containerRef);
+  })();
 
-    return () => ctx.revert();
-  }, []);
+  return () => {
+    if (ctx) ctx.revert();
+  };
+}, []);
 
   return (
     <section className="relative max-w-7xl mx-auto px-2">

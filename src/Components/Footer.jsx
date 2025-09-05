@@ -9,8 +9,15 @@ import {
   Facebook,
   Twitter,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
+
+  const navigate = useNavigate();
+
+  const handleSchedule = () =>{
+    navigate("/contact")
+  }
   const socialLinks = [
     { icon: Linkedin, href: "#", label: "LinkedIn" },
     { icon: Facebook, href: "#", label: "Facebook" },
@@ -127,7 +134,7 @@ const Footer = () => {
                 </span>
               </div>
             </div>
-            <button className="w-full px-6 py-3 bg-yellow-400 text-black rounded-lg font-semibold hover:bg-yellow-500 transition">
+            <button onClick={handleSchedule} className="w-full px-6 py-3 bg-yellow-400 text-black rounded-lg font-semibold hover:bg-yellow-500 transition">
               Schedule a Call
             </button>
           </div>

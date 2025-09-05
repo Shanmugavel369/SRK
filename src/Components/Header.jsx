@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink,Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -49,20 +49,22 @@ const Header = () => {
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
         {/* Left Logo */}
-        <Link to="/">
+        <NavLink to="/"
+         className={({ isActive }) => isActive ? "text-blue-600 font-bold" : "text-black hover:text-blue-600 mr-8"}
+        >
         <img
           src="/assets/SRK-logo.png"
           alt="SRK Logo"
           className="h-16 w-auto object-contain cursor-pointer"
           draggable={false}
         />
-        </Link>
+        </NavLink>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex space-x-8 text-lg text-gray-900">
-          <Link to="/" className="text-black hover:text-blue-600 mr-8">
+          <NavLink to="/"  className={({ isActive }) => isActive ? "text-blue-600 font-bold" : "text-black hover:text-blue-600 mr-8"}>
             Home
-          </Link>
+          </NavLink>
 
           {/* About Dropdown */}
           <div
@@ -70,9 +72,9 @@ const Header = () => {
             onMouseEnter={() => setDropdownOpen(true)}
             onMouseLeave={() => setDropdownOpen(false)}
           >
-            <Link to="/about" className="text-black hover:text-blue-600 transition-colors">
+            <NavLink to="/about"  className={({ isActive }) => isActive ? "text-blue-600 font-bold" : "text-black hover:text-blue-600"}>
               About
-            </Link>
+            </NavLink>
 
             <AnimatePresence>
               {dropdownOpen && (
@@ -90,9 +92,9 @@ const Header = () => {
                       whileHover="hover"
                       className="cursor-pointer p-2 rounded"
                     >
-                      <Link to="/about" className="block hover:text-blue-600 transition-colors">
-                        Who We Are
-                      </Link>
+                      <NavLink to="/about"  className={({ isActive }) => isActive ? "text-blue-600 font-bold" : "text-black hover:text-blue-600"}>
+                        Who I Am
+                      </NavLink>
                     </motion.li>
                     <motion.li
                       key="clients"
@@ -100,9 +102,9 @@ const Header = () => {
                       whileHover="hover"
                       className="cursor-pointer p-2 rounded"
                     >
-                      <Link to="/clients" className="block hover:text-blue-600 transition-colors">
+                      <NavLink to="/clients" className="block hover:text-blue-600 transition-colors">
                         Clients
-                      </Link>
+                      </NavLink>
                     </motion.li>
                   </motion.ul>
                 </motion.div>
@@ -110,9 +112,9 @@ const Header = () => {
             </AnimatePresence>
           </div>
 
-          <Link to="/consult" className="text-black hover:text-blue-600">
+          <NavLink to="/consult"  className={({ isActive }) => isActive ? "text-blue-600 font-bold" : "text-black hover:text-blue-600 mr-8"}>
             Consult Sharath
-          </Link>
+          </NavLink>
 
           {/* Brands Dropdown */}
           <div
@@ -196,9 +198,9 @@ const Header = () => {
             </AnimatePresence>
           </div>
 
-          <Link to="/blogs" className="text-black hover:text-blue-600 -ml-2">
+          <NavLink to="/blogs"  className={({ isActive }) => isActive ? "text-blue-600 font-bold" : "text-black hover:text-blue-600"}>
             Blogs
-          </Link>
+          </NavLink>
         </nav>
 
         {/* Mobile Hamburger Button */}
@@ -281,7 +283,7 @@ const Header = () => {
                           }}
                           className="block hover:text-yellow-600"
                         >
-                          Who We Are
+                          Who I Am
                         </Link>
                       </li>
                       <li>

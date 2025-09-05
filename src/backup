@@ -166,3 +166,46 @@ const Contact = () => {
 };
 
 export default Contact;
+
+
+
+<section
+        className="relative h-[400px] mt-24 md:mt-0 md:h-[750px] flex items-center"
+      >
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center px-6 py-12 relative z-10">
+          {/* Left content (was right content) */}
+          <div className="md:w-1/2 text-gray-900 order-last md:order-first z-20">
+            <div className="inline-block">
+              <h1 className="text-xl md:text-6xl font-bold text-start">
+                India's Leading
+                <br />
+                <span className="text-yellow-400">Digital Marketing</span>
+                <br />
+                Consultant & Educator
+              </h1>
+            </div>
+            <p className="text-lg mb-6 mt-10">
+              Sharath Ravikumar is a Digital Marketing Consultant, Agency
+              Founder,
+              <br /> and Speaker with over 10 years of experience. He has helped
+              businesses strengthen their digital presence, scale effectively,
+              and achieve lasting growth.
+            </p>
+            <button className="bg text-black font-semibold px-6 py-3 md:mb-0 mb-2 rounded-lg">
+              Explore My Work
+            </button>
+            <button className="bg-yellow-400 mr-4 md:ml-2 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg">
+              Book an Appointment
+            </button>
+          </div>
+
+          {/* Right image (was left image) */}
+          <div className="md:w-1/2 mt-10 md:mt-0 relative hidden md:block">
+            <img
+              src="https://sharathravikumar.com/wp-content/uploads/2024/12/sharath.png"
+              alt="Hero"
+              className="max-w-2xl h-[600px] absolute z-20 -top-58 right-0"
+            />
+          </div>
+        </div>
+      </section>

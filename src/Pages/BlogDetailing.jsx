@@ -16,6 +16,7 @@ import {
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import FAQ from "../ReUse/FAQ";
+import { useNavigate } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,6 +26,12 @@ export default function BlogDetail() {
   const containerRef = useRef(null);
   const headingRefs = useRef([]);
   const currentUrl = window.location.href;
+
+  const navigate = useNavigate();
+
+  const handleGetInTouch = ()=>{
+    navigate("/contact");
+  }
 
   // Safely extract headings or empty array if blog/content missing
   const headings = blog?.content
@@ -38,7 +45,7 @@ export default function BlogDetail() {
   // Reset headingRefs length to headings length
   headingRefs.current = headingRefs.current.slice(0, headings.length);
 
-  useEffect(() => {
+ useEffect(() => {
   if (!containerRef.current || !blog) return;
 
   const leftPanel = containerRef.current.querySelector(".left-panel");
@@ -48,6 +55,7 @@ export default function BlogDetail() {
   if (!leftPanel) return;
 
   const ctx = gsap.context(() => {
+    // ✅ Pin left panel
     ScrollTrigger.create({
       trigger: leftPanel,
       start: "top-=100 top",
@@ -64,8 +72,11 @@ export default function BlogDetail() {
       pin: true,
       pinSpacing: true,
       markers: false,
-      pinType: "fixed"
+      pinType: "fixed",
     });
+
+    // ✅ Cache links once instead of querying every time
+    const tocLinks = document.querySelectorAll(".toc-link");
 
     headings.forEach((h, idx) => {
       const el = headingRefs.current[idx];
@@ -76,37 +87,42 @@ export default function BlogDetail() {
         start: "top center",
         end: "bottom center",
         onEnter: () => {
-          document.querySelectorAll(".toc-link").forEach((link) =>
+          tocLinks.forEach((link) =>
             link.classList.remove("text-yellow-400", "font-semibold")
           );
-          document.getElementById(`toc-${idx}`)?.classList.add("text-yellow-400", "font-semibold");
+          document
+            .getElementById(`toc-${idx}`)
+            ?.classList.add("text-yellow-400", "font-semibold");
         },
         onEnterBack: () => {
-          document.querySelectorAll(".toc-link").forEach((link) =>
+          tocLinks.forEach((link) =>
             link.classList.remove("text-yellow-400", "font-semibold")
           );
-          document.getElementById(`toc-${idx}`)?.classList.add("text-yellow-400", "font-semibold");
+          document
+            .getElementById(`toc-${idx}`)
+            ?.classList.add("text-yellow-400", "font-semibold");
         },
       });
     });
   }, containerRef);
 
-  // Scroll to top after setup
+  // ✅ Scroll to top after setup
   const scrollToTopTimeout = setTimeout(() => {
     window.scrollTo({ top: 0, behavior: "auto" });
   }, 150);
 
-  // Use requestAnimationFrame to refresh ScrollTrigger after layout update settles
-  const refreshTimeout = requestAnimationFrame(() => {
+  // ✅ Refresh ScrollTrigger with RAF (safer + cancels properly)
+  const refreshHandle = requestAnimationFrame(() => {
     ScrollTrigger.refresh();
   });
 
   return () => {
     clearTimeout(scrollToTopTimeout);
-    cancelAnimationFrame(refreshTimeout);
-    ctx.revert();
+    cancelAnimationFrame(refreshHandle);
+    ctx.revert(); // ✅ cleans all triggers created inside gsap.context
   };
 }, [id, headings, blog]);
+
 
 
 
@@ -216,7 +232,7 @@ export default function BlogDetail() {
               <p className="text-gray-800 mt-2 text-sm">
                 Have questions or feedback? Reach out to us anytime.
               </p>
-              <button className="mt-3 w-full bg-blue-800 text-white py-2 px-4 rounded-lg">
+              <button onClick={handleGetInTouch} className="mt-3 w-full bg-blue-800 text-white py-2 px-4 rounded-lg">
                 Contact Us
               </button>
             </div>

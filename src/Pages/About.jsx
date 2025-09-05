@@ -176,18 +176,13 @@ const AboutHero = () => {
 
   const active = testimonials[activeIndex];
 
-  useEffect(() => {
-    // Set maxHeight for animations dynamically
-    refs.current.forEach((ref, i) => {
-      if (ref) {
-        if (openIndex === i) {
-          ref.style.maxHeight = ref.scrollHeight + "px";
-        } else {
-          ref.style.maxHeight = 0;
-        }
-      }
-    });
-  }, [openIndex]);
+useEffect(() => {
+  refs.current.forEach((ref, i) => {
+    if (!ref) return;
+    ref.style.maxHeight = openIndex === i ? ref.scrollHeight + "px" : "0px";
+  });
+}, [openIndex]);
+
 
   return (
     <>
@@ -218,7 +213,7 @@ const AboutHero = () => {
                 innovation, quality, and commitment. Discover how we can help
                 your business thrive and grow with our expert team.
               </p>
-              <button className="inline-block w-40 px-6 py-3 font-semibold rounded-lg bg text-white hover:bg-blue-700 transition-colors duration-300">
+              <button onClick={handleGetInTouch} className="inline-block w-40 px-6 py-3 font-semibold rounded-lg bg text-white hover:bg-blue-700 transition-colors duration-300">
                 Get Started
               </button>
             </div>
