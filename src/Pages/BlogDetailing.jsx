@@ -1,6 +1,5 @@
-import { useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
-import { blogData } from "../data/Blog";
+import { useEffect, useRef, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import BlogCard from "../ReUse/Blogcard";
 import Breadcrumbs from "../ReUse/Breadcrumbs";
 import {
@@ -16,24 +15,70 @@ import {
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import FAQ from "../ReUse/FAQ";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function BlogDetail() {
   const { id } = useParams();
-  const blog = blogData.find((b) => b.id.toString() === id);
   const containerRef = useRef(null);
   const headingRefs = useRef([]);
   const currentUrl = window.location.href;
-
   const navigate = useNavigate();
 
-  const handleGetInTouch = ()=>{
-    navigate("/contact");
-  }
+  const [blog, setBlog] = useState(null);
+  const [relatedBlogs, setRelatedBlogs] = useState([]);
 
-  // Safely extract headings or empty array if blog/content missing
+  const handleGetInTouch = () => {
+    navigate("/contact");
+  };
+
+  // Fetch blog from backend
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/api/blogs/${id}`)
+      .then((res) => {
+        const data = res.data;
+
+        // Parse HTML content into array of objects for headings, paragraphs, images
+        let contentArray = [];
+        if (data.contentHtml) {
+          // Very simple parser: split by <h2>, <p>, <img> tags (adjust as needed)
+          const tempDiv = document.createElement("div");
+          tempDiv.innerHTML = data.contentHtml;
+
+          tempDiv.childNodes.forEach((node) => {
+            if (node.tagName === "H2") {
+              contentArray.push({ type: "heading", text: node.innerText });
+            } else if (node.tagName === "P") {
+              contentArray.push({ type: "paragraph", text: node.innerText });
+            } else if (node.tagName === "IMG") {
+              contentArray.push({ type: "image", src: node.src });
+            }
+          });
+        }
+
+        // Parse FAQ JSON if exists
+        const faqArray = data.faqJson ? JSON.parse(data.faqJson) : [];
+
+        setBlog({ ...data, content: contentArray, faq: faqArray });
+
+        // Fetch related blogs
+        axios
+          .get("http://localhost:8080/api/blogs")
+          .then((res) => {
+            const related = res.data
+              .filter(
+                (b) => b.id !== data.id && b.category === data.category
+              )
+              .slice(0, 3);
+            setRelatedBlogs(related);
+          });
+      })
+      .catch((err) => console.error(err));
+  }, [id]);
+
+  // Extract headings for TOC
   const headings = blog?.content
     ? blog.content
         .map((c, idx) =>
@@ -42,89 +87,82 @@ export default function BlogDetail() {
         .filter(Boolean)
     : [];
 
-  // Reset headingRefs length to headings length
   headingRefs.current = headingRefs.current.slice(0, headings.length);
 
- useEffect(() => {
-  if (!containerRef.current || !blog) return;
+  // GSAP ScrollTrigger effect
+  useEffect(() => {
+    if (!containerRef.current || !blog) return;
 
-  const leftPanel = containerRef.current.querySelector(".left-panel");
-  const rightPanel = containerRef.current.querySelector(".right-panel");
-  const lastHeadingElement = headingRefs.current[headingRefs.current.length - 2];
+    const leftPanel = containerRef.current.querySelector(".left-panel");
+    const rightPanel = containerRef.current.querySelector(".right-panel");
+    const lastHeadingElement = headingRefs.current[headingRefs.current.length - 2];
 
-  if (!leftPanel) return;
+    if (!leftPanel) return;
 
-  const ctx = gsap.context(() => {
-    // ✅ Pin left panel
-    ScrollTrigger.create({
-      trigger: leftPanel,
-      start: "top-=100 top",
-      end: () => {
-        if (lastHeadingElement) {
-          const rect = lastHeadingElement.getBoundingClientRect();
-          return rect.bottom + window.scrollY + 20;
-        }
-        if (rightPanel) {
-          return rightPanel.getBoundingClientRect().height + window.scrollY;
-        }
-        return "+=1000";
-      },
-      pin: true,
-      pinSpacing: true,
-      markers: false,
-      pinType: "fixed",
-    });
-
-    // ✅ Cache links once instead of querying every time
-    const tocLinks = document.querySelectorAll(".toc-link");
-
-    headings.forEach((h, idx) => {
-      const el = headingRefs.current[idx];
-      if (!el) return;
-
+    const ctx = gsap.context(() => {
       ScrollTrigger.create({
-        trigger: el,
-        start: "top center",
-        end: "bottom center",
-        onEnter: () => {
-          tocLinks.forEach((link) =>
-            link.classList.remove("text-yellow-400", "font-semibold")
-          );
-          document
-            .getElementById(`toc-${idx}`)
-            ?.classList.add("text-yellow-400", "font-semibold");
+        trigger: leftPanel,
+        start: "top-=100 top",
+        end: () => {
+          if (lastHeadingElement) {
+            const rect = lastHeadingElement.getBoundingClientRect();
+            return rect.bottom + window.scrollY + 20;
+          }
+          if (rightPanel) {
+            return rightPanel.getBoundingClientRect().height + window.scrollY;
+          }
+          return "+=1000";
         },
-        onEnterBack: () => {
-          tocLinks.forEach((link) =>
-            link.classList.remove("text-yellow-400", "font-semibold")
-          );
-          document
-            .getElementById(`toc-${idx}`)
-            ?.classList.add("text-yellow-400", "font-semibold");
-        },
+        pin: true,
+        pinSpacing: true,
+        markers: false,
+        pinType: "fixed",
       });
+
+      const tocLinks = document.querySelectorAll(".toc-link");
+
+      headings.forEach((h, idx) => {
+        const el = headingRefs.current[idx];
+        if (!el) return;
+
+        ScrollTrigger.create({
+          trigger: el,
+          start: "top center",
+          end: "bottom center",
+          onEnter: () => {
+            tocLinks.forEach((link) =>
+              link.classList.remove("text-yellow-400", "font-semibold")
+            );
+            document
+              .getElementById(`toc-${idx}`)
+              ?.classList.add("text-yellow-400", "font-semibold");
+          },
+          onEnterBack: () => {
+            tocLinks.forEach((link) =>
+              link.classList.remove("text-yellow-400", "font-semibold")
+            );
+            document
+              .getElementById(`toc-${idx}`)
+              ?.classList.add("text-yellow-400", "font-semibold");
+          },
+        });
+      });
+    }, containerRef);
+
+    const scrollToTopTimeout = setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }, 150);
+
+    const refreshHandle = requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
     });
-  }, containerRef);
 
-  // ✅ Scroll to top after setup
-  const scrollToTopTimeout = setTimeout(() => {
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }, 150);
-
-  // ✅ Refresh ScrollTrigger with RAF (safer + cancels properly)
-  const refreshHandle = requestAnimationFrame(() => {
-    ScrollTrigger.refresh();
-  });
-
-  return () => {
-    clearTimeout(scrollToTopTimeout);
-    cancelAnimationFrame(refreshHandle);
-    ctx.revert(); // ✅ cleans all triggers created inside gsap.context
-  };
-}, [id, headings, blog]);
-
-
-
+    return () => {
+      clearTimeout(scrollToTopTimeout);
+      cancelAnimationFrame(refreshHandle);
+      ctx.revert();
+    };
+  }, [id, headings, blog]);
 
   if (!blog) {
     return (
@@ -139,13 +177,13 @@ export default function BlogDetail() {
       {/* Hero Image */}
       <div className="w-full mt-16 sm:mt-20">
         <img
-          src={blog.image || blog.img}
+          src={blog.bannerUrl || blog.imgUrl}
           alt={blog.title}
           className="w-full h-60 sm:h-80 md:h-[500px] object-cover"
         />
         <div className="max-w-7xl mx-auto px-4 mt-4 sm:mt-6">
-    <Breadcrumbs />
-  </div>
+          <Breadcrumbs current={blog.title}/>
+        </div>
       </div>
 
       {/* Meta Info */}
@@ -232,7 +270,10 @@ export default function BlogDetail() {
               <p className="text-gray-800 mt-2 text-sm">
                 Have questions or feedback? Reach out to us anytime.
               </p>
-              <button onClick={handleGetInTouch} className="mt-3 w-full bg-blue-800 text-white py-2 px-4 rounded-lg">
+              <button
+                onClick={handleGetInTouch}
+                className="mt-3 w-full bg-blue-800 text-white py-2 px-4 rounded-lg"
+              >
                 Contact Us
               </button>
             </div>
@@ -248,7 +289,7 @@ export default function BlogDetail() {
                       onClick={() => {
                         const el = headingRefs.current[idx];
                         if (!el) return;
-                        const topOffset = 100; // adjust for fixed header
+                        const topOffset = 100;
                         const elementPosition = el.getBoundingClientRect().top;
                         const offsetPosition =
                           elementPosition + window.scrollY - topOffset;
@@ -271,19 +312,19 @@ export default function BlogDetail() {
         {/* Right Content */}
         <article className="right-panel col-span-1 md:col-span-3 space-y-4 sm:space-y-6">
           {blog.content.map((c, idx) => {
-  if (c.type === "heading") {
-    const headingIndex = headings.findIndex(h => h.index === idx);
-    return (
-      <h2
-        key={idx}
-        ref={el => (headingRefs.current[headingIndex] = el)} // properly assign ref by heading index
-        id={`section-${headingIndex}`} // add id for accessibility
-        className="text-2xl sm:text-3xl md:text-4xl font-bold mt-4 sm:mt-6"
-      >
-        {c.text}
-      </h2>
-    );
-  }
+            if (c.type === "heading") {
+              const headingIndex = headings.findIndex((h) => h.index === idx);
+              return (
+                <h2
+                  key={idx}
+                  ref={(el) => (headingRefs.current[headingIndex] = el)}
+                  id={`section-${headingIndex}`}
+                  className="text-2xl sm:text-3xl md:text-4xl font-bold mt-4 sm:mt-6"
+                >
+                  {c.text}
+                </h2>
+              );
+            }
             if (c.type === "paragraph")
               return (
                 <p
@@ -314,19 +355,14 @@ export default function BlogDetail() {
           Related Blogs
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {blogData
-            .filter((b) => b.id !== blog.id && b.category === blog.category)
-            .slice(0, 3)
-            .map((post) => (
-              <BlogCard key={post.id} blog={post} />
-            ))}
+          {relatedBlogs.length > 0 ? (
+            relatedBlogs.map((post) => <BlogCard key={post.id} blog={post} />)
+          ) : (
+            <p className="text-gray-600 text-base sm:text-lg text-center mt-6">
+              No related blogs found.
+            </p>
+          )}
         </div>
-        {blogData.filter((b) => b.id !== blog.id && b.category === blog.category)
-          .length === 0 && (
-          <p className="text-gray-600 text-base sm:text-lg text-center mt-6">
-            No related blogs found.
-          </p>
-        )}
       </div>
     </div>
   );

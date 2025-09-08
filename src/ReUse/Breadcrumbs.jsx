@@ -1,24 +1,37 @@
-// src/ReUse/Breadcrumbs.jsx
-import { Link, useLocation, matchRoutes } from "react-router-dom";
+import { Link, useLocation, matchRoutes, useParams } from "react-router-dom";
 import { routesConfig } from "../data/routeConfig";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Breadcrumbs() {
   const location = useLocation();
+  const params = useParams();
   const matches = matchRoutes(routesConfig, location);
+  const [blogTitle, setBlogTitle] = useState("");
+
+  useEffect(() => {
+    // Only fetch if we are on /blogs/:id
+    if (params.id) {
+      axios.get(`http://localhost:8080/api/blogs/${params.id}`)
+        .then(res => setBlogTitle(res.data.title))
+        .catch(err => console.error(err));
+    } else {
+      setBlogTitle("");
+    }
+  }, [params.id]);
 
   if (!matches) return null;
 
   const crumbs = matches.map((match) => {
-  const crumb = typeof match.route.breadcrumb === "function"
-    ? match.route.breadcrumb(match.params, location) // pass location, and optionally blogData
-    : match.route.breadcrumb;
+    const crumb = typeof match.route.breadcrumb === "function"
+      ? match.route.breadcrumb(params, blogTitle)
+      : match.route.breadcrumb;
 
-  return {
-    path: match.pathname,
-    label: crumb,
-  };
-});
-
+    return {
+      path: match.pathname,
+      label: crumb,
+    };
+  });
 
   return (
     <nav className="my-4">

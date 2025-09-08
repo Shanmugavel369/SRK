@@ -7,7 +7,7 @@ export default function BlogCard({ blog }) {
       {/* Top Half: Image with Category Tag */}
       <div className="relative h-48 overflow-hidden">
         <img
-          src={blog.img}
+          src={blog.imgUrl} // backend field
           alt={blog.title}
           className="w-full h-full object-cover transform transition duration-300 ease-in-out hover:scale-105"
         />
@@ -20,7 +20,7 @@ export default function BlogCard({ blog }) {
       {/* Bottom Half: Content */}
       <div className="p-4 flex flex-col flex-grow">
         <h3 className="text-xl font-bold mb-2 pl-3 border-l-4 h-12 mb-4 border-blue-800 flex-grow">{blog.title}</h3>
-        <p className="text-gray-600 text-sm mb-3 flex-grow">{blog.desc}</p>
+        <p className="text-gray-600 text-sm mb-3 flex-grow">{blog.description}</p>
         <div className="flex items-center justify-between mt-auto">
           <DateWithIcon date={blog.date} />
           <Link
@@ -28,7 +28,6 @@ export default function BlogCard({ blog }) {
             className="text-blue-800 text-sm font-semibold hover:underline hover:text-yellow-400 transition duration-300 flex items-center gap-1"
           >
             Read More
-            {/* Straight right arrow SVG */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4 mt-1"

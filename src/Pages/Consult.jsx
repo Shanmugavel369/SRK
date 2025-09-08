@@ -1,15 +1,14 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, number } from "framer-motion";
 import "swiper/css";
 import { Mail, Phone } from "lucide-react";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import Testimonials from "../ReUse/Testimonials";
 import { useNavigate } from "react-router-dom";
-
-
+import axios from "axios";
 
 import {
   FiTrendingUp,
@@ -54,7 +53,7 @@ const caseStudies = [
     id: 1,
     img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
     title: "Case Study Title 1",
-    pdfPath:"/path-to-case-study1.pdf",
+    link: "/case-study",
     desc: "Summary for case study 1. Animi aperiam suscipit voluptas provident neque laborum ea distinctio, perspiciatis quas, atque harum incidunt. Hic, omnis consectetur.",
     stats: [
       {
@@ -84,7 +83,7 @@ const caseStudies = [
     img: "https://images.unsplash.com/photo-1508385082359-f59a798cd2e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
     title: "Case Study Title 2",
     desc: "Summary for case study 2. Dignissimos dolores veritatis repellat earum mollitia aliquam.",
-    pdfPath:"/path-to-case-study1.pdf",
+    link: "",
     stats: [
       {
         icon: <MdRocketLaunch size={24} />,
@@ -112,7 +111,7 @@ const caseStudies = [
     id: 3,
     img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
     title: "Case Study Title 3",
-    pdfPath:"/path-to-case-study1.pdf",
+    link: "",
     desc: "Summary for case study 3. Aliquam voluptate? Ut totam eligendi, earum molestiae ad est facilis.",
     stats: [
       {
@@ -137,7 +136,7 @@ const caseStudies = [
     id: 4,
     img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
     title: "Case Study Title 4",
-    pdfPath:"/path-to-case-study1.pdf",
+    link: "",
     desc: "Summary for case study 4. Voluptas voluptatem ipsam officia.",
     stats: [
       { icon: <FiZap size={24} />, title: "Speed", content: "Fast Delivery" },
@@ -161,24 +160,87 @@ const caseStudies = [
 ];
 
 const brands = [
-  { id: 1, name: "Brand 1", logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png" },
-  { id: 2, name: "Brand 2", logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png" },
-  { id: 3, name: "Brand 3", logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png" },
-  { id: 4, name: "Brand 3", logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png" },
-  { id: 6, name: "Brand 3", logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png" },
-  { id: 5, name: "Brand 3", logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png" },
-  { id: 7, name: "Brand 3", logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png" },
-  { id: 8, name: "Brand 3", logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png" },
-  { id: 9, name: "Brand 3", logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png" },
-  { id: 10, name: "Brand 3", logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png" },
-  { id: 11, name: "Brand 3", logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png" },
-  { id: 12, name: "Brand 3", logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png" },
-  { id: 12, name: "Brand 3", logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png" },
-  { id: 14, name: "Brand 3", logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png" },
-  { id: 15, name: "Brand 3", logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png" },
-  { id: 16, name: "Brand 3", logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png" },
+  {
+    id: 1,
+    name: "Brand 1",
+    logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png",
+  },
+  {
+    id: 2,
+    name: "Brand 2",
+    logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png",
+  },
+  {
+    id: 3,
+    name: "Brand 3",
+    logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png",
+  },
+  {
+    id: 4,
+    name: "Brand 3",
+    logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png",
+  },
+  {
+    id: 6,
+    name: "Brand 3",
+    logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png",
+  },
+  {
+    id: 5,
+    name: "Brand 3",
+    logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png",
+  },
+  {
+    id: 7,
+    name: "Brand 3",
+    logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png",
+  },
+  {
+    id: 8,
+    name: "Brand 3",
+    logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png",
+  },
+  {
+    id: 9,
+    name: "Brand 3",
+    logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png",
+  },
+  {
+    id: 10,
+    name: "Brand 3",
+    logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png",
+  },
+  {
+    id: 11,
+    name: "Brand 3",
+    logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png",
+  },
+  {
+    id: 12,
+    name: "Brand 3",
+    logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png",
+  },
+  {
+    id: 12,
+    name: "Brand 3",
+    logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png",
+  },
+  {
+    id: 14,
+    name: "Brand 3",
+    logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png",
+  },
+  {
+    id: 15,
+    name: "Brand 3",
+    logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png",
+  },
+  {
+    id: 16,
+    name: "Brand 3",
+    logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png",
+  },
 ];
-
 
 const services = [
   {
@@ -223,33 +285,85 @@ export default function HeroSection() {
   const [prevEl, setPrevEl] = useState(null);
   const [nextEl, setNextEl] = useState(null);
   const [openFormId, setOpenFormId] = useState(null); // track which slide’s form is open
+  const navigate = useNavigate();
 
+  //consulting form
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    organization: "",
+    phone: "",
+    message: "",
   });
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (pdfPath) => {
-    if (!formData.name || !formData.email) {
-      alert("Please fill all required fields.");
-      return;
-    }
-
-    // Trigger download
-    const link = document.createElement("a");
-    link.href = pdfPath;
-    link.download = pdfPath.split("/").pop();
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
-    // Close form and reset
-    setOpenFormId(null);
-    setFormData({ name: "", email: "", organization: "" });
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      // payload format matches backend model
+      const payload = {
+        formType: "Consulting", // or any identifier for this form
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        additionalData: {
+          message: formData.message,
+        },
+      };
+
+      await axios.post("http://localhost:8080/api/forms/submit", payload); // backend endpoint
+
+      navigate("/thank-you")
+      setFormData({ name: "", email: "", phone: "", message: "" });
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong. Please try again!");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  //case-study form
+  const [form2Data, setForm2Data] = useState({
+    name: "",
+    email: "",
+    phone: "",
+  });
+
+  const handleform2Change = (e) => {
+    setForm2Data({ ...form2Data, [e.target.name]: e.target.value });
+  };
+
+  const handleform2Submit = async (e, link) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      // payload format matches backend model
+      const payload = {
+        formType: "case-study", // or any identifier for this form
+        name: form2Data.name,
+        email: form2Data.email,
+        phone: form2Data.phone,
+      };
+
+      await axios.post("http://localhost:8080/api/forms/submit", payload); // backend endpoint
+
+      if (link) window.location.href = link;
+
+      setForm2Data({ name: "", email: "", phone: ""});
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong. Please try again!");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleGetInTouch = () => {
     navigate("/contact"); // Navigate to contact us page
@@ -266,7 +380,6 @@ export default function HeroSection() {
     setOpenIndex((prev) => (prev === index ? -1 : index));
   };
 
-  
   return (
     <>
       {/* hero section */}
@@ -299,41 +412,58 @@ export default function HeroSection() {
                 your business thrive and grow with our expert team.
               </p>
               <button
-                    className="group flex items-center mb-2 md:mb-0 bg w-45 text-black px-2 py-3 rounded-md font-medium shadow overflow-hidden relative hover:bg-yellow-500"
-                    aria-label="Call Us"
-                    onClick={() => (window.location.href = "tel:+1234567890")}
-                  >
-                    <PhoneIcon className="w-5 h-5 ml-2" />
-                    <span>+91 1234567890</span>
-                  </button>
+                className="group flex items-center mb-2 md:mb-0 bg w-45 text-black px-2 py-3 rounded-md font-medium shadow overflow-hidden relative hover:bg-yellow-500"
+                aria-label="Call Us"
+                onClick={() => (window.location.href = "tel:+1234567890")}
+              >
+                <PhoneIcon className="w-5 h-5 ml-2" />
+                <span>+91 1234567890</span>
+              </button>
             </div>
 
             {/* Form */}
             <div className="w-full md:w-[360px] bg-white rounded-lg p-8 shadow-lg md:ml-40 flex flex-col justify-center">
-              <form className="space-y-5">
+              <form className="space-y-5" onSubmit={handleSubmit}>
                 <input
+                  name="name"
                   type="text"
-                  placeholder="Name"
+                  placeholder="Name *"
+                  value={formData.name}
+                  onChange={handleChange}
                   className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
                   required
                 />
                 <input
-                  type="tel"
-                  placeholder="Number"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                  required
-                />
-                <input
+                  name="email"
                   type="email"
-                  placeholder="Email"
+                  placeholder="Email *"
+                  value={formData.email}
+                  onChange={handleChange}
                   className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
                   required
+                />
+                <input
+                  name="phone"
+                  type="tel"
+                  placeholder="Mobile Number *"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                  required
+                />
+                <textarea
+                  name="message"
+                  placeholder="Message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
                 />
                 <button
                   type="submit"
-                  className="w-full py-3 bg-yellow-400 text-black font-semibold rounded-md hover:bg-yellow-500 transition-colors duration-300"
+                  disabled={loading}
+                  className="w-full py-3 bg-yellow-400 text-black font-semibold rounded-md hover:bg-yellow-500 transition-colors duration-300 disabled:opacity-50"
                 >
-                  Submit
+                  {loading ? "Submitting..." : "Submit"}
                 </button>
               </form>
             </div>
@@ -375,223 +505,236 @@ export default function HeroSection() {
         </div>
       </section>
 
+      {/* brands */}
+      <section className="max-w-7xl mx-auto px-6 py-12">
+        <div className="text-center mb-4">
+          <h2 className="text-4xl text-gray-700 font-bold mb-2">Brands</h2>
+          <p className="text-lg text-gray-600">
+            Lorem ipsum dolor sit amet consectetur.
+          </p>
+        </div>
 
-        {/* brands */}
-<section className="max-w-7xl mx-auto px-6 py-12">
-  <div className="text-center mb-4">
-    <h2 className="text-4xl text-gray-700 font-bold mb-2">Brands</h2>
-    <p className="text-lg text-gray-600">Lorem ipsum dolor sit amet consectetur.</p>
-  </div>
+        <div className="grid grid-cols-4 gap-6">
+          {brands.map(({ id, logo, name }) => (
+            <div
+              key={id}
+              className="relative flex items-center justify-center p-2 group overflow-hidden"
+            >
+              {/* Gray Image (always visible) */}
+              <img
+                src={logo}
+                alt={name}
+                className="max-h-20 object-contain w-full filter grayscale"
+              />
 
-  <div className="grid grid-cols-4 gap-6">
-    {brands.map(({ id, logo, name }) => (
-      <div
-        key={id}
-        className="relative flex items-center justify-center p-2 group overflow-hidden"
-      >
-        {/* Gray Image (always visible) */}
-        <img
-          src={logo}
-          alt={name}
-          className="max-h-20 object-contain w-full filter grayscale"
-        />
-
-        {/* Colored Image (slides up on hover) */}
-        <img
-          src={logo}
-          alt={name}
-          className="absolute inset-0 max-h-20 object-contain w-full 
+              {/* Colored Image (slides up on hover) */}
+              <img
+                src={logo}
+                alt={name}
+                className="absolute inset-0 max-h-20 object-contain w-full 
             translate-y-full opacity-0
             transition-all duration-700 ease-in-out
             group-hover:translate-y-2 group-hover:opacity-100"
-        />
-      </div>
-    ))}
-  </div>
-</section>
+              />
+            </div>
+          ))}
+        </div>
+      </section>
 
-
-
-{/* case Studies */}
+      {/* case Studies */}
       <section className="max-w-7xl mx-auto px-6 py-12 relative">
-      <Swiper
-        modules={[Navigation]}
-        spaceBetween={40}
-        slidesPerView={1}
-        loop={true}
-        navigation={{
-          prevEl,
-          nextEl,
-        }}
-        onInit={(swiper) => {
-          swiper.params.navigation.prevEl = prevEl;
-          swiper.params.navigation.nextEl = nextEl;
-          swiper.navigation.init();
-          swiper.navigation.update();
-        }}
-      >
-        {caseStudies.map(({ id, img, title, desc, stats, pdfPath }) => (
-          <SwiperSlide key={id}>
-            <div className="h-[400px] rounded-xl grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative">
-              {/* Left image */}
-              <div className="w-full h-72 md:h-auto">
-                <img
-                  src={img}
-                  alt={title}
-                  className="w-full h-full object-cover rounded-lg"
-                />
-              </div>
+        <Swiper
+          modules={[Navigation]}
+          spaceBetween={40}
+          slidesPerView={1}
+          loop={true}
+          navigation={{
+            prevEl,
+            nextEl,
+          }}
+          onInit={(swiper) => {
+            swiper.params.navigation.prevEl = prevEl;
+            swiper.params.navigation.nextEl = nextEl;
+            swiper.navigation.init();
+            swiper.navigation.update();
+          }}
+        >
+          {caseStudies.map((cs) => (
+            <SwiperSlide key={cs.id}>
+              <div className="h-[400px] rounded-xl grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative">
+                {/* Left image */}
+                <div className="w-full h-72 md:h-auto">
+                  <img
+                    src={cs.img}
+                    alt={cs.title}
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                </div>
 
-              {/* Right content */}
-              <div className="flex flex-col h-full justify-between">
-                <div>
-                  <h2 className="text-3xl font-bold text-gray-800 mb-2">
-                    {title}
-                  </h2>
-                  <p className="text-gray-600 text-xl mb-6 w-[500px]">{desc}</p>
+                {/* Right content */}
+                <div className="flex flex-col h-full justify-between">
+                  <div>
+                    <h2 className="text-3xl font-bold text-gray-800 mb-2">
+                      {cs.title}
+                    </h2>
+                    <p className="text-gray-600 text-xl mb-6 w-[500px]">
+                      {cs.desc}
+                    </p>
 
-                  <div className="flex flex-col space-y-2">
-                    {stats.map(({ icon, title: statTitle, content }, i) => (
-                      <div
-                        key={i}
-                        className="flex items-center space-x-3 text-gray-800"
-                      >
-                        <div className="text-3xl font-bold text-yellow-400">
-                          {icon}
+                    <div className="flex flex-col space-y-2">
+                      {cs.stats.map(({ icon, title: statTitle, content }, i) => (
+                        <div
+                          key={i}
+                          className="flex items-center space-x-3 text-gray-800"
+                        >
+                          <div className="text-3xl font-bold text-yellow-400">
+                            {icon}
+                          </div>
+                          <div className="flex space-x-1 text-sm">
+                            <span className="text-xl text-yellow-400">
+                              {statTitle}
+                            </span>
+                            <span className="mt-1">:</span>
+                            <span className="text-xl text-gray-600">
+                              {content}
+                            </span>
+                          </div>
                         </div>
-                        <div className="flex space-x-1 text-sm">
-                          <span className="text-xl text-yellow-400">
-                            {statTitle}
-                          </span>
-                          <span className="mt-1">:</span>
-                          <span className="text-xl text-gray-600">{content}</span>
-                        </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Bottom: View Case Study Button */}
+                  <div className="self-end mb-2 relative">
+                    <button
+                      onClick={() => setOpenFormId(cs.id)}
+                      className="inline-block w-44 bg text-gray-800 font-semibold py-3 px-4 rounded transition"
+                    >
+                      View Case Study
+                    </button>
+
+                    {/* Animated Form */}
+                    <AnimatePresence>
+                      {openFormId === cs.id && (
+                        <motion.div
+                          className="fixed inset-0 flex items-center justify-center z-50"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                        >
+                          <motion.div
+                            onClick={() => setOpenFormId(null)}
+                            className="absolute inset-0 bg-black/40"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 0.4 }}
+                            exit={{ opacity: 0 }}
+                          ></motion.div>
+
+                          <motion.div
+                            className="relative bg-white rounded-2xl p-8 w-full max-w-md shadow-xl z-50"
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.8, opacity: 0 }}
+                            transition={{ type: "spring", stiffness: 120 }}
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <button
+                              onClick={() => setOpenFormId(null)}
+                              className="absolute top-4 right-4 text-gray-400 hover:text-gray-700"
+                            >
+                              ✕
+                            </button>
+                            <h3 className="text-2xl font-bold mb-4 text-yellow-700">
+                              Case Study Form
+                            </h3>
+                            <form className="flex flex-col gap-2" onSubmit={(e) => handleform2Submit(e, cs.link)}>
+                              {/* Name */}
+                              <div className="flex flex-col text-left">
+                                <label className="text-gray-700 font-medium">
+                                  Your Name
+                                </label>
+                                <input
+                                 name="name"
+                                  type="text"
+                                  placeholder="Enter your full name"
+                                  value={form2Data.name}
+                                  onChange={handleform2Change}
+                                  required
+                                  className="px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:outline-none shadow-sm"
+                                />
+                              </div>
+
+                              {/* Email */}
+                              <div className="flex flex-col text-left">
+                                <label className="text-gray-700 font-medium">
+                                  Email Address
+                                </label>
+                                <input
+                                  name="email"
+                                  type="email"
+                                  placeholder="example@email.com"
+                                  value={form2Data.email}
+                                  onChange={handleform2Change}
+                                  required
+                                  className="px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:outline-none shadow-sm"
+                                />
+                              </div>
+
+                              {/* Mobile Number */}
+                              <div className="flex flex-col text-left">
+                                <label className="text-gray-700 font-medium">
+                                  Mobile Number
+                                </label>
+                                <input
+                                  name="phone"
+                                  type="text"
+                                  placeholder="+91 98765 43210"
+                                  value={form2Data.phone}
+                                  onChange={handleform2Change}
+                                  required
+                                  className="px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:outline-none shadow-sm"
+                                />
+                              </div>
+
+                              {/* Button */}
+                              <motion.button
+                                type="submit"
+                                whileHover={{ scale: 1.05, y: -2 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 rounded-lg py-3 font-semibold shadow-md hover:shadow-lg transition-all"
+                              >
+                                Go to Case Study
+                              </motion.button>
+                            </form>
+                          </motion.div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 </div>
-
-                {/* Bottom: View Case Study Button */}
-                <div className="self-end mb-2 relative">
-                  <button
-                    onClick={() => setOpenFormId(id)}
-                    className="inline-block w-44 bg text-gray-800 font-semibold py-3 px-4 rounded transition"
-                  >
-                    View Case Study
-                  </button>
-
-                  {/* Animated Form */}
-                  <AnimatePresence>
-                    {openFormId === id && (
-                      <motion.div
-                        className="fixed inset-0 flex items-center justify-center z-50"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                      >
-                        <motion.div
-                          onClick={() => setOpenFormId(null)}
-                          className="absolute inset-0 bg-black/40"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 0.4 }}
-                          exit={{ opacity: 0 }}
-                        ></motion.div>
-
-                        <motion.div
-                          className="relative bg-white rounded-2xl p-8 w-full max-w-md shadow-xl z-50"
-                          initial={{ scale: 0.8, opacity: 0 }}
-                          animate={{ scale: 1, opacity: 1 }}
-                          exit={{ scale: 0.8, opacity: 0 }}
-                          transition={{ type: "spring", stiffness: 120 }}
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <button
-                            onClick={() => setOpenFormId(null)}
-                            className="absolute top-4 right-4 text-gray-400 hover:text-gray-700"
-                          >
-                            ✕
-                          </button>
-                          <h3 className="text-2xl font-bold mb-4 text-yellow-700">
-                            Case Study Form
-                          </h3>
-                          <form
-                            className="flex flex-col gap-4"
-                            onSubmit={(e) => {
-                              e.preventDefault();
-                              handleSubmit(pdfPath);
-                            }}
-                          >
-                            <input
-                              type="text"
-                              placeholder="Your Name"
-                              className="border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-yellow-400 outline-none"
-                              value={formData.name}
-                              onChange={(e) =>
-                                setFormData({ ...formData, name: e.target.value })
-                              }
-                              required
-                            />
-                            <input
-                              type="email"
-                              placeholder="Email"
-                              className="border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-yellow-400 outline-none"
-                              value={formData.email}
-                              onChange={(e) =>
-                                setFormData({ ...formData, email: e.target.value })
-                              }
-                              required
-                            />
-                            <input
-                              type="text"
-                              placeholder="Organization / Company"
-                              className="border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-yellow-400 outline-none"
-                              value={formData.organization}
-                              onChange={(e) =>
-                                setFormData({
-                                  ...formData,
-                                  organization: e.target.value,
-                                })
-                              }
-                            />
-                            <motion.button
-                              type="submit"
-                              whileHover={{ scale: 1.03, y: -1 }}
-                              whileTap={{ scale: 0.95 }}
-                              className="bg-yellow-400 text-gray-800 rounded-lg py-3 font-semibold shadow-md"
-                            >
-                              Download
-                            </motion.button>
-                          </form>
-                        </motion.div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
               </div>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+            </SwiperSlide>
+          ))}
+        </Swiper>
 
-      {/* Navigation */}
-      <div className="flex justify-center gap-8 mt-6">
-        <button
-          ref={setPrevEl}
-          className="text-xl font-bold px-2 py-1 rounded border border-gray-400 hover:bg-blue-200"
-          aria-label="Previous Slide"
-        >
-          ←
-        </button>
-        <button
-          ref={setNextEl}
-          className="text-xl font-bold px-2 py-1 rounded border border-gray-400 hover:bg-blue-200"
-          aria-label="Next Slide"
-        >
-          →
-        </button>
-      </div>
-    </section>
-
+        {/* Navigation */}
+        <div className="flex justify-center gap-8 mt-6">
+          <button
+            ref={setPrevEl}
+            className="text-xl font-bold px-2 py-1 rounded border border-gray-400 hover:bg-blue-200"
+            aria-label="Previous Slide"
+          >
+            ←
+          </button>
+          <button
+            ref={setNextEl}
+            className="text-xl font-bold px-2 py-1 rounded border border-gray-400 hover:bg-blue-200"
+            aria-label="Next Slide"
+          >
+            →
+          </button>
+        </div>
+      </section>
 
       <section className="max-w-7xl mx-auto px-4 py-8">
         <div className="text-center mb-6">
@@ -628,32 +771,32 @@ export default function HeroSection() {
         </section>
       </section>
 
-           <section className="bg">
-              <div className="w-full py-12 px-6 md:px-20 flex flex-col md:flex-row items-center justify-between mx-auto max-w-5xl">
-                {/* Left side content */}
-                <div className="mb-6 md:mb-0 md:flex-1">
-                  <h3 className="text-2xl font-semibold text-white mb-2">
-                    Ready to get started?
-                  </h3>
-                  <p className="text-white">
-                    Let's connect and help you achieve your goals with a tailored
-                    solution.
-                  </p>
-                </div>
-      
-                {/* Right side buttons with hover expand and icons */}
-                <div className="flex gap-2 md:flex-none">
-                  <button
-                    className="group flex items-center bg-yellow-400 text-black px-2 py-3 rounded-md font-medium shadow overflow-hidden relative hover:bg-yellow-500"
-                    aria-label="Call Us"
-                    onClick={() => (window.location.href = "tel:+1234567890")}
-                  >
-                    <PhoneIcon className="w-5 h-5 ml-2" />
-                    <span>+91 1234567890</span>
-                  </button>
-                </div>
-              </div>
-            </section>
+      <section className="bg">
+        <div className="w-full py-12 px-6 md:px-20 flex flex-col md:flex-row items-center justify-between mx-auto max-w-5xl">
+          {/* Left side content */}
+          <div className="mb-6 md:mb-0 md:flex-1">
+            <h3 className="text-2xl font-semibold text-white mb-2">
+              Ready to get started?
+            </h3>
+            <p className="text-white">
+              Let's connect and help you achieve your goals with a tailored
+              solution.
+            </p>
+          </div>
+
+          {/* Right side buttons with hover expand and icons */}
+          <div className="flex gap-2 md:flex-none">
+            <button
+              className="group flex items-center bg-yellow-400 text-black px-2 py-3 rounded-md font-medium shadow overflow-hidden relative hover:bg-yellow-500"
+              aria-label="Call Us"
+              onClick={() => (window.location.href = "tel:+1234567890")}
+            >
+              <PhoneIcon className="w-5 h-5 ml-2" />
+              <span>+91 1234567890</span>
+            </button>
+          </div>
+        </div>
+      </section>
 
       <section className="flex justify-center items-center">
         <div className="flex flex-col md:flex-row bg-white shadow-md p-8 md:p-12 max-w-5xl w-full min-h-[500px] items-center">
@@ -694,7 +837,6 @@ export default function HeroSection() {
           </div>
         </div>
       </section>
-
 
       <Testimonials />
 
@@ -788,7 +930,6 @@ export default function HeroSection() {
           </div>
         </div>
       </section>
-
     </>
   );
 }

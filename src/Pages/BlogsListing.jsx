@@ -1,45 +1,61 @@
-import { useState, useMemo } from "react";
-import { blogData } from "../data/Blog";
+import { useState, useEffect, useMemo } from "react";
 import BlogCard from "../ReUse/Blogcard";
 import DateWithIcon from "../ReUse/DateIcon";
 import { Link } from "react-router-dom";
 import Breadcrumbs from "../ReUse/Breadcrumbs";
+import axios from "axios";
 
 export default function BlogListing() {
+  const [blogs, setBlogs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
   const blogsPerPage = 6;
-  const [email, setEmail] = useState(""); // for banner
 
-  // Categories dynamically
-  const categories = ["All", ...new Set(blogData.map((b) => b.category))];
+  // Fetch blogs from backend
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/blogs")
+      .then((res) => {
+        // Ensure consistent field names (imgUrl, bannerUrl, featured, etc.)
+        const fetchedBlogs = res.data.map((b) => ({
+          ...b,
+          imgUrl: b.imgUrl || b.bannerUrl || "", // fallback if backend uses bannerUrl
+          description: b.description || "", // fallback for missing description
+        }));
+        setBlogs(fetchedBlogs);
+      })
+      .catch((err) => console.error(err));
+  }, []);
 
-  // Featured Blog (based on featured flag)
-  const featuredBlog = blogData.find((b) => b.featured) || blogData[0];
+  // Dynamic categories
+  const categories = ["All", ...new Set(blogs.map((b) => b.category))];
 
-  // Search results (appear above featured blog)
+  // Featured blog
+  const featuredBlog = useMemo(() => blogs.find((b) => b.featured) || blogs[0], [blogs]);
+
+  // Search results (above featured blog)
   const searchResults = useMemo(() => {
     if (searchTerm.trim() === "") return [];
-    return blogData.filter(
+    return blogs.filter(
       (b) =>
         b.id !== featuredBlog.id &&
         b.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
-  }, [searchTerm, featuredBlog.id]);
+  }, [searchTerm, blogs, featuredBlog]);
 
-  // Blogs for the category grid (below featured blog)
+  // Category blogs (below featured)
   const categoryBlogs = useMemo(() => {
-    if (searchTerm.trim() !== "") return []; // Don't show category grid while searching
+    if (searchTerm.trim() !== "") return [];
     if (selectedCategory === "All") {
-      return blogData.filter((b) => b.id !== featuredBlog.id);
+      return blogs.filter((b) => b.id !== featuredBlog.id);
     }
-    return blogData.filter(
+    return blogs.filter(
       (b) => b.id !== featuredBlog.id && b.category === selectedCategory
     );
-  }, [selectedCategory, searchTerm, featuredBlog.id]);
+  }, [selectedCategory, searchTerm, blogs, featuredBlog]);
 
-  // Pagination for category grid
+  // Pagination
   const indexOfLastBlog = currentPage * blogsPerPage;
   const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
   const currentBlogs = categoryBlogs.slice(indexOfFirstBlog, indexOfLastBlog);
@@ -48,7 +64,7 @@ export default function BlogListing() {
   return (
     <div>
       <section className="max-w-7xl mx-auto px-4 py-16 mt-8">
-        {/* Entrance Title & Description */}
+        {/* Title */}
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold">
             Our <span className="text-yellow-400">Blogs</span>
@@ -58,27 +74,10 @@ export default function BlogListing() {
           </p>
         </div>
 
-        {/* Search Bar */}
-        <div className="flex justify-center mb-10 relative w-full max-w-lg mx-auto">
-          {/* Search Icon */}
-          <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 text-gray-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"
-              />
-            </svg>
-          </div>
+        <Breadcrumbs />
 
-          {/* Input */}
+        {/* Search */}
+        <div className="flex justify-center mb-10 relative w-full max-w-lg mx-auto">
           <input
             type="text"
             placeholder="Search blogs by title..."
@@ -86,12 +85,10 @@ export default function BlogListing() {
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
-              setCurrentPage(1); // reset page
+              setCurrentPage(1);
             }}
           />
         </div>
-
-        <Breadcrumbs />
 
         {/* Search Results */}
         {searchTerm.trim() !== "" && (
@@ -104,81 +101,44 @@ export default function BlogListing() {
                 ))}
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center py-16">
-                <p className="text-gray-500 text-lg">No blogs found.</p>
-              </div>
+              <p className="text-gray-500 text-lg text-center">No blogs found.</p>
             )}
           </div>
         )}
 
         {/* Featured Blog */}
-        {featuredBlog && (
+        {featuredBlog && searchTerm.trim() === "" && (
           <div className="mb-12">
             <h2 className="text-2xl font-bold mb-5">Featured Blog</h2>
             <div className="h-100 overflow-hidden hover:shadow-xl transition flex flex-col md:flex-row">
-              {/* Image with Featured Tag */}
               <div className="relative w-full md:w-1/2 h-full">
                 <img
-                  src={featuredBlog.img}
+                  src={featuredBlog.imgUrl}
                   alt={featuredBlog.title}
                   className="w-full h-full object-cover transform transition duration-300 ease-in-out hover:scale-105"
                 />
-                {/* Featured Tag */}
-                <span className="absolute top-3 left-3 bg-yellow-400 text-white text-xs px-3 py-1 rounded-full shadow flex items-center gap-1">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-3 w-3"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M3 17l6-6 4 4 8-8"
-                    />
-                  </svg>
-                  Featured
-                </span>
+                {featuredBlog.featured && (
+                  <span className="absolute top-3 left-3 bg-yellow-400 text-white text-xs px-3 py-1 rounded-full shadow">
+                    Featured
+                  </span>
+                )}
               </div>
 
-              {/* Content */}
               <div className="p-12 flex flex-col justify-between md:w-1/2 relative">
                 <div>
-                  <h3 className="text-4xl font-bold mt-3">
-                    {featuredBlog.title}
-                  </h3>
-                  <p className="text-xl text-gray-600 mt-4">
-                    {featuredBlog.desc}
-                  </p>
-                  {/* Category label */}
+                  <h3 className="text-4xl font-bold mt-3">{featuredBlog.title}</h3>
+                  <p className="text-xl text-gray-600 mt-4">{featuredBlog.description}</p>
                   <span className="absolute top-3 right-3 bg-blue-800 text-white text-xs px-3 py-1 rounded-full shadow">
                     {featuredBlog.category}
                   </span>
                 </div>
-                {/* Date & Button */}
                 <div className="mt-6 flex flex-col items-start gap-2">
                   <DateWithIcon date={featuredBlog.date} />
                   <Link
                     to={`/blogs/${featuredBlog.id}`}
-                    className="text-white bg-blue-800 mt-1 px-4 py-2 rounded-md hover:bg-blue-900 transition flex items-center gap-1"
+                    className="text-white bg-blue-800 mt-1 px-4 py-2 rounded-md hover:bg-blue-900 transition"
                   >
                     Read More
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M5 12h14m0 0l-4-4m4 4l-4 4"
-                      />
-                    </svg>
                   </Link>
                 </div>
               </div>
@@ -186,7 +146,7 @@ export default function BlogListing() {
           </div>
         )}
 
-        {/* Category Filter Tabs */}
+        {/* Category Tabs */}
         {searchTerm.trim() === "" && (
           <div className="flex gap-4 mb-10 flex-wrap justify-center">
             {categories.map((cat) => (
@@ -213,13 +173,9 @@ export default function BlogListing() {
           <>
             <div className="grid md:grid-cols-3 gap-8 mb-8">
               {currentBlogs.length > 0 ? (
-                currentBlogs.map((blog) => (
-                  <BlogCard key={blog.id} blog={blog} />
-                ))
+                currentBlogs.map((blog) => <BlogCard key={blog.id} blog={blog} />)
               ) : (
-                <p className="text-center col-span-3 text-gray-500">
-                  No blogs found.
-                </p>
+                <p className="text-center col-span-3 text-gray-500">No blogs found.</p>
               )}
             </div>
 
@@ -243,8 +199,6 @@ export default function BlogListing() {
             )}
           </>
         )}
-
-        {/* Stay Updated Banner */}
       </section>
       {/* Stay Updated Banner - Full Width */}
       <div className="w-full py-20 mt-16 bg-[#0A57B4]">
@@ -261,19 +215,12 @@ export default function BlogListing() {
 
           {/* Form */}
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              alert(`Subscribed with: ${email}`);
-              setEmail("");
-            }}
             className="flex flex-col md:flex-row gap-4 w-full max-w-md"
           >
             <input
               type="email"
               required
               placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               className="px-5 py-3 rounded-md text-white focus:outline-none w-full border border-white"
             />
             <button

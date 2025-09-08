@@ -10,7 +10,16 @@ import {
 import { Mail, Phone, ChevronRight, ChevronLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { PhoneIcon } from "@heroicons/react/24/solid";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
 
+const clients = [
+  "/images/client1.png",
+  "/images/client2.png",
+  "/images/client3.png",
+  "/images/client4.png",
+  "/images/client5.png",
+];
 
 const testimonials = [
   {
@@ -220,6 +229,33 @@ useEffect(() => {
           </div>
         </section>
       </div>
+
+      <section className="max-w-7xl mx-auto overflow-hidden py-4">
+              <h2 className="text-center text-4xl text-gray-700 font-bold mb-12">Our Clients</h2>
+              <div className="relative w-full">
+                <motion.div
+                  className="flex gap-10"
+                  animate={{ x: ["0%", "-50%"] }}
+                  transition={{
+                    x: { repeat: Infinity, repeatType: "loop", duration: 20, ease: "linear" },
+                  }}
+                >
+                  {[...clients, ...clients, ...clients].map((logo, index) => (
+                    <div
+                      key={index}
+                      className="flex-shrink-0 w-32 h-20 flex items-center justify-center"
+                    >
+                      <img
+                        src={logo}
+                        alt={`Client ${index}`}
+                        className="object-contain h-full w-full"
+                      />
+                    </div>
+                  ))}
+                </motion.div>
+              </div>
+            </section>
+
 
       <section className="max-w-7xl mx-auto mt-12 mb-10 px-4">
         <div className="items-center">
