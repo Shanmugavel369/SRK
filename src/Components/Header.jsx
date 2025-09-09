@@ -102,7 +102,7 @@ const Header = () => {
                       whileHover="hover"
                       className="cursor-pointer p-2 rounded"
                     >
-                      <NavLink to="/clients" className="block hover:text-blue-600 transition-colors">
+                      <NavLink to="/clients" className={({ isActive }) => isActive ? "text-blue-600 font-bold" : "text-black hover:text-blue-600"}>
                         Clients
                       </NavLink>
                     </motion.li>
@@ -381,7 +381,7 @@ const Header = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/blogs" onClick={() => setMobileMenuOpen(false)} className="block text-blue-600 hover:text-yellow-600 -ml-2">
+                <Link to="/blogs" onClick={() => setMobileMenuOpen(false)} className="block text-blue-600 hover:text-yellow-600">
                   Blogs
                 </Link>
               </li>

@@ -2,7 +2,8 @@ import { useState } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function InviteSection() {
   const [openForm, setOpenForm] = useState(false);
@@ -15,38 +16,11 @@ export default function InviteSection() {
     message: "",
   });
   const navigate = useNavigate();
-  const [captcha, setCaptcha] = useState("");
-  const [generatedCaptcha, setGeneratedCaptcha] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [captchaValue, setCaptchaValue] = useState(null);
 
-  // Generate simple captcha (example: 4 digit random)
-  const [captchaStyles, setCaptchaStyles] = useState([]);
-
-  const generateCaptcha = () => {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    let captcha = "";
-    let styles = [];
-
-    for (let i = 0; i < 5; i++) {
-      const char = chars.charAt(Math.floor(Math.random() * chars.length));
-      captcha += char;
-
-      styles.push({
-        transform: `rotate(${Math.random() * 40 - 20}deg)`,
-        color: `hsl(${Math.random() * 360}, 70%, 40%)`,
-        fontFamily: ["cursive", "monospace", "serif", "sans-serif"][
-          Math.floor(Math.random() * 4)
-        ],
-      });
-    }
-
-    setGeneratedCaptcha(captcha);
-    setCaptchaStyles(styles);
-  };
-
-  // Generate captcha on popup open
   const handleOpenForm = () => {
     setOpenForm(true);
-    generateCaptcha();
   };
 
   // Handle input changes
@@ -57,11 +31,12 @@ export default function InviteSection() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (captcha !== generatedCaptcha) {
-      alert("Captcha does not match!");
+    if (!captchaValue) {
+      alert("Please verify that you are not a robot!");
       return;
     }
 
+    setLoading(true);
     try {
       const payload = {
         formType: "invite-guest-speaker",
@@ -86,10 +61,13 @@ export default function InviteSection() {
         purpose: "",
         message: "",
       });
-      setCaptcha("");
+      setCaptchaValue(null);
+      setOpenForm(false);
     } catch (err) {
       console.error(err);
       alert("Something went wrong, please try again.");
+    }finally {
+      setLoading(false);
     }
   };
 
@@ -292,45 +270,18 @@ export default function InviteSection() {
                   ></textarea>
                 </label>
 
-                {/* Captcha */}
-                <div className="flex flex-col text-sm font-medium text-gray-700 col-span-1 md:col-span-2">
-                  Captcha Verification *
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-1">
-                    <div className="flex gap-2 bg-gray-100 px-3 py-2 rounded-md border border-gray-300">
-                      {generatedCaptcha.split("").map((char, index) => (
-                        <span
-                          key={index}
-                          style={captchaStyles[index]}
-                          className="font-bold text-lg"
-                        >
-                          {char}
-                        </span>
-                      ))}
-                    </div>
-
-                    <input
-                      type="text"
-                      placeholder="Enter Captcha"
-                      value={captcha}
-                      onChange={(e) => setCaptcha(e.target.value)}
-                      required
-                      className="flex-1 p-3 border border-gray-300 rounded-lg outline-none"
-                    />
-                    <button
-                      type="button"
-                      onClick={generateCaptcha}
-                      className="text-sm text-blue-600 hover:underline"
-                    >
-                      Refresh
-                    </button>
-                  </div>
-                </div>
+                {/* Google reCAPTCHA */}
+                <ReCAPTCHA
+                  sitekey="6LfMH8IrAAAAADAc-Pgn-x1GD-NP7uhBy6X6lIe0" // replace with your site key
+                  onChange={(value) => setCaptchaValue(value)}
+                />
 
                 {/* Submit Button */}
                 <motion.button
                   type="submit"
                   whileHover={{ scale: 1.03, y: -1 }}
                   whileTap={{ scale: 0.95 }}
+                  disabled={loading}
                   className="col-span-1 md:col-span-2 bg-yellow-400 text-gray-800 rounded-lg py-3 font-semibold shadow-md"
                 >
                   Submit

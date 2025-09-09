@@ -221,7 +221,7 @@ const brands = [
     logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png",
   },
   {
-    id: 12,
+    id: 13,
     name: "Brand 3",
     logo: "https://www.webboombaa.org/wp-content/uploads/2025/09/LVB.png",
   },
@@ -524,7 +524,7 @@ export default function HeroSection() {
               <img
                 src={logo}
                 alt={name}
-                className="max-h-20 object-contain w-full filter grayscale"
+                className="max-h-20 object-contain w-full filter md:grayscale"
               />
 
               {/* Colored Image (slides up on hover) */}
@@ -542,199 +542,203 @@ export default function HeroSection() {
       </section>
 
       {/* case Studies */}
-      <section className="max-w-7xl mx-auto px-6 py-12 relative">
-        <Swiper
-          modules={[Navigation]}
-          spaceBetween={40}
-          slidesPerView={1}
-          loop={true}
-          navigation={{
-            prevEl,
-            nextEl,
-          }}
-          onInit={(swiper) => {
-            swiper.params.navigation.prevEl = prevEl;
-            swiper.params.navigation.nextEl = nextEl;
-            swiper.navigation.init();
-            swiper.navigation.update();
-          }}
-        >
-          {caseStudies.map((cs) => (
-            <SwiperSlide key={cs.id}>
-              <div className="h-[400px] rounded-xl grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative">
-                {/* Left image */}
-                <div className="w-full h-72 md:h-auto">
-                  <img
-                    src={cs.img}
-                    alt={cs.title}
-                    className="w-full h-full object-cover rounded-lg"
-                  />
-                </div>
+      <section className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 relative">
+  <Swiper
+    modules={[Navigation]}
+    spaceBetween={20}
+    slidesPerView={1}
+    loop={true}
+    navigation={{
+      prevEl,
+      nextEl,
+    }}
+    onInit={(swiper) => {
+      swiper.params.navigation.prevEl = prevEl;
+      swiper.params.navigation.nextEl = nextEl;
+      swiper.navigation.init();
+      swiper.navigation.update();
+    }}
+  >
+    {caseStudies.map((cs) => (
+      <SwiperSlide key={cs.id}>
+        <div className="h-auto md:h-[400px] rounded-xl grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-center relative">
+          {/* Left image */}
+          <div className="w-full h-56 md:h-auto">
+            <img
+              src={cs.img}
+              alt={cs.title}
+              className="w-full h-full object-cover rounded-lg"
+            />
+          </div>
 
-                {/* Right content */}
-                <div className="flex flex-col h-full justify-between">
-                  <div>
-                    <h2 className="text-3xl font-bold text-gray-800 mb-2">
-                      {cs.title}
-                    </h2>
-                    <p className="text-gray-600 text-xl mb-6 w-[500px]">
-                      {cs.desc}
-                    </p>
+          {/* Right content */}
+          <div className="flex flex-col h-full justify-between space-y-4 md:space-y-0">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
+                {cs.title}
+              </h2>
+              <p className="text-gray-600 text-base md:text-xl mb-4 md:mb-6 w-full md:w-[500px]">
+                {cs.desc}
+              </p>
 
-                    <div className="flex flex-col space-y-2">
-                      {cs.stats.map(({ icon, title: statTitle, content }, i) => (
-                        <div
-                          key={i}
-                          className="flex items-center space-x-3 text-gray-800"
-                        >
-                          <div className="text-3xl font-bold text-yellow-400">
-                            {icon}
-                          </div>
-                          <div className="flex space-x-1 text-sm">
-                            <span className="text-xl text-yellow-400">
-                              {statTitle}
-                            </span>
-                            <span className="mt-1">:</span>
-                            <span className="text-xl text-gray-600">
-                              {content}
-                            </span>
-                          </div>
-                        </div>
-                      ))}
+              <div className="flex flex-col space-y-2">
+                {cs.stats.map(({ icon, title: statTitle, content }, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center space-x-3 text-gray-800"
+                  >
+                    <div className="text-2xl md:text-3xl font-bold text-yellow-400">
+                      {icon}
+                    </div>
+                    <div className="flex space-x-1 text-sm md:text-base">
+                      <span className="text-lg md:text-xl text-yellow-400">
+                        {statTitle}
+                      </span>
+                      <span className="mt-1">:</span>
+                      <span className="text-lg md:text-xl text-gray-600">
+                        {content}
+                      </span>
                     </div>
                   </div>
-
-                  {/* Bottom: View Case Study Button */}
-                  <div className="self-end mb-2 relative">
-                    <button
-                      onClick={() => setOpenFormId(cs.id)}
-                      className="inline-block w-44 bg text-gray-800 font-semibold py-3 px-4 rounded transition"
-                    >
-                      View Case Study
-                    </button>
-
-                    {/* Animated Form */}
-                    <AnimatePresence>
-                      {openFormId === cs.id && (
-                        <motion.div
-                          className="fixed inset-0 flex items-center justify-center z-50"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                        >
-                          <motion.div
-                            onClick={() => setOpenFormId(null)}
-                            className="absolute inset-0 bg-black/40"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 0.4 }}
-                            exit={{ opacity: 0 }}
-                          ></motion.div>
-
-                          <motion.div
-                            className="relative bg-white rounded-2xl p-8 w-full max-w-md shadow-xl z-50"
-                            initial={{ scale: 0.8, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.8, opacity: 0 }}
-                            transition={{ type: "spring", stiffness: 120 }}
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <button
-                              onClick={() => setOpenFormId(null)}
-                              className="absolute top-4 right-4 text-gray-400 hover:text-gray-700"
-                            >
-                              ✕
-                            </button>
-                            <h3 className="text-2xl font-bold mb-4 text-yellow-700">
-                              Case Study Form
-                            </h3>
-                            <form className="flex flex-col gap-2" onSubmit={(e) => handleform2Submit(e, cs.link)}>
-                              {/* Name */}
-                              <div className="flex flex-col text-left">
-                                <label className="text-gray-700 font-medium">
-                                  Your Name
-                                </label>
-                                <input
-                                 name="name"
-                                  type="text"
-                                  placeholder="Enter your full name"
-                                  value={form2Data.name}
-                                  onChange={handleform2Change}
-                                  required
-                                  className="px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:outline-none shadow-sm"
-                                />
-                              </div>
-
-                              {/* Email */}
-                              <div className="flex flex-col text-left">
-                                <label className="text-gray-700 font-medium">
-                                  Email Address
-                                </label>
-                                <input
-                                  name="email"
-                                  type="email"
-                                  placeholder="example@email.com"
-                                  value={form2Data.email}
-                                  onChange={handleform2Change}
-                                  required
-                                  className="px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:outline-none shadow-sm"
-                                />
-                              </div>
-
-                              {/* Mobile Number */}
-                              <div className="flex flex-col text-left">
-                                <label className="text-gray-700 font-medium">
-                                  Mobile Number
-                                </label>
-                                <input
-                                  name="phone"
-                                  type="text"
-                                  placeholder="+91 98765 43210"
-                                  value={form2Data.phone}
-                                  onChange={handleform2Change}
-                                  required
-                                  className="px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:outline-none shadow-sm"
-                                />
-                              </div>
-
-                              {/* Button */}
-                              <motion.button
-                                type="submit"
-                                whileHover={{ scale: 1.05, y: -2 }}
-                                whileTap={{ scale: 0.95 }}
-                                className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 rounded-lg py-3 font-semibold shadow-md hover:shadow-lg transition-all"
-                              >
-                                Go to Case Study
-                              </motion.button>
-                            </form>
-                          </motion.div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                </div>
+                ))}
               </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+            </div>
 
-        {/* Navigation */}
-        <div className="flex justify-center gap-8 mt-6">
-          <button
-            ref={setPrevEl}
-            className="text-xl font-bold px-2 py-1 rounded border border-gray-400 hover:bg-blue-200"
-            aria-label="Previous Slide"
-          >
-            ←
-          </button>
-          <button
-            ref={setNextEl}
-            className="text-xl font-bold px-2 py-1 rounded border border-gray-400 hover:bg-blue-200"
-            aria-label="Next Slide"
-          >
-            →
-          </button>
+            {/* Bottom: View Case Study Button */}
+            <div className="self-start md:self-end mb-2 relative">
+              <button
+                onClick={() => setOpenFormId(cs.id)}
+                className="inline-block w-full md:w-44 bg text-gray-800 font-semibold py-3 px-4 rounded transition"
+              >
+                View Case Study
+              </button>
+
+              {/* Animated Form */}
+              <AnimatePresence>
+                {openFormId === cs.id && (
+                  <motion.div
+                    className="fixed inset-0 flex items-center justify-center z-50 px-4"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                  >
+                    <motion.div
+                      onClick={() => setOpenFormId(null)}
+                      className="absolute inset-0 bg-black/40"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 0.4 }}
+                      exit={{ opacity: 0 }}
+                    ></motion.div>
+
+                    <motion.div
+                      className="relative bg-white rounded-2xl p-6 md:p-8 w-full max-w-md shadow-xl z-50"
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0.8, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 120 }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <button
+                        onClick={() => setOpenFormId(null)}
+                        className="absolute top-4 right-4 text-gray-400 hover:text-gray-700"
+                      >
+                        ✕
+                      </button>
+                      <h3 className="text-xl md:text-2xl font-bold mb-4 text-yellow-700">
+                        Case Study Form
+                      </h3>
+                      <form
+                        className="flex flex-col gap-2"
+                        onSubmit={(e) => handleform2Submit(e, cs.link)}
+                      >
+                        {/* Name */}
+                        <div className="flex flex-col text-left">
+                          <label className="text-gray-700 font-medium">
+                            Your Name
+                          </label>
+                          <input
+                            name="name"
+                            type="text"
+                            placeholder="Enter your full name"
+                            value={form2Data.name}
+                            onChange={handleform2Change}
+                            required
+                            className="px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:outline-none shadow-sm"
+                          />
+                        </div>
+
+                        {/* Email */}
+                        <div className="flex flex-col text-left">
+                          <label className="text-gray-700 font-medium">
+                            Email Address
+                          </label>
+                          <input
+                            name="email"
+                            type="email"
+                            placeholder="example@email.com"
+                            value={form2Data.email}
+                            onChange={handleform2Change}
+                            required
+                            className="px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:outline-none shadow-sm"
+                          />
+                        </div>
+
+                        {/* Mobile Number */}
+                        <div className="flex flex-col text-left">
+                          <label className="text-gray-700 font-medium">
+                            Mobile Number
+                          </label>
+                          <input
+                            name="phone"
+                            type="text"
+                            placeholder="+91 98765 43210"
+                            value={form2Data.phone}
+                            onChange={handleform2Change}
+                            required
+                            className="px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:outline-none shadow-sm"
+                          />
+                        </div>
+
+                        {/* Button */}
+                        <motion.button
+                          type="submit"
+                          whileHover={{ scale: 1.05, y: -2 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 rounded-lg py-3 font-semibold shadow-md hover:shadow-lg transition-all"
+                        >
+                          Go to Case Study
+                        </motion.button>
+                      </form>
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
         </div>
-      </section>
+      </SwiperSlide>
+    ))}
+  </Swiper>
+
+  {/* Navigation */}
+  <div className="flex justify-center gap-6 md:gap-8 mt-4 md:mt-6">
+    <button
+      ref={setPrevEl}
+      className="text-lg md:text-xl font-bold px-3 py-1 rounded border border-gray-400 hover:bg-blue-200"
+      aria-label="Previous Slide"
+    >
+      ←
+    </button>
+    <button
+      ref={setNextEl}
+      className="text-lg md:text-xl font-bold px-3 py-1 rounded border border-gray-400 hover:bg-blue-200"
+      aria-label="Next Slide"
+    >
+      →
+    </button>
+  </div>
+</section>
+
 
       <section className="max-w-7xl mx-auto px-4 py-8">
         <div className="text-center mb-6">

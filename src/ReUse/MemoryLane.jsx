@@ -68,15 +68,22 @@ const Timeline = () => {
 
     ctx = gsapRef.context(() => {
       const container = containerRef.current;
-      const lineEl = lineRef.current;
-      const items = itemsRef.current;
-      const contents = contentRefs.current;
-      const arrowEl = container?.querySelector("#lineArrow");
+const lineEl = lineRef.current;
+const items = (itemsRef.current || []).filter(Boolean);
+const contents = (contentRefs.current || []).filter(Boolean);
+const arrowEl = container?.querySelector("#lineArrow");
 
-      if (!container || !lineEl || items.length === 0) return;
+if (!container || !lineEl || items.length === 0) return;
 
-      // Ensure arrays have proper length
-      visibleRef.current = items.map(() => false);
+// Ensure arrays have proper length
+visibleRef.current = items.map(() => false);
+
+const itemTop = (el) => (el ? el.offsetTop : 0);
+const lastMid = () => {
+  const last = items[items.length - 1];
+  return last ? (last.offsetTop || 0) + (last.offsetHeight || 0) + 50 : 0;
+};
+
 
       // Initial states
       gsapRef.set(items, {
@@ -89,13 +96,6 @@ const Timeline = () => {
         x: X_OFFSET,
         willChange: "transform,opacity",
       });
-
-      // Helpers
-      const itemTop = (el) => el.offsetTop;
-      const lastMid = () =>
-        itemTop(items[items.length - 1]) +
-        items[items.length - 1].offsetHeight +
-        50;
 
       // Reveal/hide logic
       const updateVisibility = (currentHeight) => {

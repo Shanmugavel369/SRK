@@ -4,12 +4,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { useLocation, useNavigate} from "react-router-dom";
 import axios from "axios";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function FormPopup() {
   const [showForm, setShowForm] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [captchaValue, setCaptchaValue] = useState(null);
 
   const [FormData, setFormData] = useState({
     name: "",
@@ -25,6 +27,10 @@ export default function FormPopup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!captchaValue) {
+      alert("Please verify that you are not a robot!");
+      return;
+    }
     setLoading(true);
     try {
       const response = await axios.post(
@@ -47,6 +53,8 @@ export default function FormPopup() {
           },
         });
       }
+      setCaptchaValue(null);
+      setShowForm(false);
     } catch (err) {
       console.error(err);
       if (err.response) {
@@ -241,6 +249,11 @@ export default function FormPopup() {
                     }
                   />
                 </div>
+                {/* Google reCAPTCHA */}
+                <ReCAPTCHA
+                  sitekey="6LfMH8IrAAAAADAc-Pgn-x1GD-NP7uhBy6X6lIe0" // replace with your site key
+                  onChange={(value) => setCaptchaValue(value)}
+                />
 
                 {/* Submit button */}
                 <div className="md:col-span-2 flex justify-center">

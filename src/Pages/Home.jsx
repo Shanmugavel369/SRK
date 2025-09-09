@@ -158,7 +158,7 @@ const Hero = () => {
           {/* Left content (was right content) */}
           <div className="md:w-1/2 text-gray-900 order-last md:order-first z-20">
             <div className="inline-block">
-              <h1 className="text-xl md:text-6xl font-bold text-start">
+              <h1 className="text-xl md:text-6xl font-bold text-start md:mt-0 mt-40">
                 India's Leading
                 <br />
                 <span className="text-yellow-400">Digital Marketing</span>
